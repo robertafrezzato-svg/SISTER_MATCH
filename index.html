@@ -33,7 +33,8 @@ button,a,[role="button"]{cursor:pointer}
 /* ===== TOPBAR ===== */
 .topbar{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:rgba(0,0,0,0.4);z-index:10;flex-shrink:0}
 .topbar-pill{font-family:var(--font-impact);font-size:12px;background:var(--gold);color:var(--ink);padding:4px 10px;border-radius:20px;letter-spacing:0.5px}
-.topbar-title{font-family:var(--font-display);font-size:20px;color:var(--cream)}
+.topbar-title{font-family:var(--font-display);font-size:20px;color:var(--cream);display:flex;align-items:center;gap:6px}
+.topbar-logo{height:28px;object-fit:contain}
 .topbar-btns{display:flex;gap:8px}
 .topbar-btns button{background:none;border:2px solid var(--cream);color:var(--cream);font-size:18px;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center}
 .topbar-btns button.muted{opacity:0.5;border-color:rgba(255,255,255,0.3)}
@@ -74,6 +75,7 @@ button,a,[role="button"]{cursor:pointer}
 .overlay.hidden{opacity:0;pointer-events:none}
 
 /* ===== INTRO OVERLAY ===== */
+#introOverlay .logo-intro{max-width:75vw;max-height:22vh;margin-bottom:16px;object-fit:contain;filter:drop-shadow(0 4px 12px rgba(0,0,0,0.5))}
 #introOverlay .logo-vert{max-width:70vw;max-height:30vh;margin-bottom:16px}
 #introOverlay .logo-fallback{font-family:var(--font-display);font-size:clamp(58px,18vw,110px);color:var(--red);text-shadow:4px 4px 0 var(--cream),8px 8px 0 var(--ink);transform:rotate(-5deg);line-height:0.85;margin-bottom:16px}
 #introOverlay .tagline{font-family:var(--font-display);font-size:clamp(20px,5vw,28px);color:var(--cream);margin-bottom:4px}
@@ -110,9 +112,9 @@ button,a,[role="button"]{cursor:pointer}
 .confetti{position:absolute;width:8px;height:12px;border-radius:2px;animation:confettiFall linear forwards;pointer-events:none;z-index:101}
 
 /* ===== TUTORIAL OVERLAY ===== */
-#tutorialOverlay{background:rgba(10,10,10,0.55);z-index:110;pointer-events:none}
-#tutorialOverlay .tut-hand{font-size:40px;animation:tutSwipe 1.5s ease infinite}
-#tutorialOverlay .tut-text{font-family:var(--font-impact);font-size:16px;color:var(--cream);margin-top:12px}
+#tutorialOverlay{position:fixed;inset:0;z-index:110;display:flex;flex-direction:column;align-items:center;justify-content:center;background:transparent;pointer-events:none}
+#tutorialOverlay .tut-hand{font-size:48px;animation:tutSwipe 1.5s ease infinite}
+#tutorialOverlay .tut-text{font-family:var(--font-impact);font-size:18px;color:var(--gold);margin-top:12px;text-shadow:0 2px 8px rgba(0,0,0,0.9),0 0 20px rgba(0,0,0,0.7);-webkit-text-stroke:0.5px var(--ink)}
 
 /* ===== COMBO TOAST ===== */
 #comboToast{position:fixed;top:40%;left:50%;transform:translate(-50%,-50%) scale(0);z-index:90;font-family:var(--font-display);font-size:clamp(36px,10vw,56px);color:var(--red);text-shadow:3px 3px 0 var(--gold),6px 6px 0 var(--ink);pointer-events:none;opacity:0;transition:none}
@@ -139,7 +141,7 @@ button,a,[role="button"]{cursor:pointer}
   <!-- Topbar -->
   <div class="topbar">
     <span class="topbar-pill" id="actLabel">ATTO 1</span>
-    <span class="topbar-title">Sister Match</span>
+    <span class="topbar-title"><img src="sister-act-logo-oriz.png" alt="Sister Act" class="topbar-logo" onerror="this.style.display='none';this.parentElement.textContent='Sister Match'"></span>
     <div class="topbar-btns">
       <button id="btnMute" aria-label="Audio on/off">🔊</button>
       <button id="btnRestart" aria-label="Ricomincia livello">↻</button>
@@ -172,8 +174,8 @@ button,a,[role="button"]{cursor:pointer}
 
   <!-- Intro Overlay -->
   <div class="overlay" id="introOverlay">
-    <!-- Logo verticale: quando il grafico fornirà il PNG, aggiungere <img src="sister-act-logo-vert.png" ...> -->
-    <div class="logo-fallback">Sister<br>Act</div>
+    <img src="sister-act-logo-oriz.png" alt="Sister Act" class="logo-intro" onerror="this.style.display='none';document.getElementById('logoFallbackIntro').style.display='block'">
+    <div class="logo-fallback" id="logoFallbackIntro" style="display:none">Sister<br>Act</div>
     <div class="tagline">Il gioco ufficiale del musical</div>
     <div class="sub-tagline">Allinea, canta, fai miracoli</div>
     <div class="preview-objs" id="previewObjs"></div>
@@ -204,8 +206,8 @@ button,a,[role="button"]{cursor:pointer}
 
   <!-- Prize Overlay -->
   <div class="overlay hidden" id="prizeOverlay">
-    <!-- Logo verticale: quando il grafico fornirà il PNG, aggiungere <img src="sister-act-logo-vert.png" ...> -->
-    <div class="logo-fallback">Sister<br>Act</div>
+    <img src="sister-act-logo-oriz.png" alt="Sister Act" class="logo-intro" style="animation:prizeBounce 0.6s ease" onerror="this.style.display='none';document.getElementById('logoFallbackPrize').style.display='block'">
+    <div class="logo-fallback" id="logoFallbackPrize" style="display:none">Sister<br>Act</div>
     <div class="prize-congrats">COMPLIMENTI!</div>
     <div class="prize-sub">HAI SUPERATO TUTTI I LIVELLI</div>
     <div class="prize-text">Ti regaliamo i biglietti per l'Anteprima esclusiva di Sister Act il Musical in scena l'8 ottobre</div>
@@ -344,6 +346,14 @@ function init() {
     introOverlay.classList.add('hidden');
     playAudio();
     startLevel(currentLevel);
+    // Mostra tutorial al primo gioco, sparisce dopo 5 secondi
+    if (currentLevel === 0 && localStorage.getItem('sm_tutorial_done') !== '1') {
+      tutorialOverlay.style.display = 'flex';
+      setTimeout(() => {
+        tutorialOverlay.style.display = 'none';
+        localStorage.setItem('sm_tutorial_done', '1');
+      }, 5000);
+    }
   };
 
   // Bottone mute
@@ -851,15 +861,6 @@ function startLevel(lvl) {
   generateGrid();
   renderGrid();
   updateHUD();
-
-  // Tutorial solo livello 1 se non visto — sparisce dopo 5 secondi
-  if (lvl === 0 && localStorage.getItem('sm_tutorial_done') !== '1') {
-    tutorialOverlay.style.display = 'flex';
-    setTimeout(() => {
-      tutorialOverlay.style.display = 'none';
-      localStorage.setItem('sm_tutorial_done', '1');
-    }, 5000);
-  }
 }
 
 // ===== CHECK FINE LIVELLO =====
@@ -885,12 +886,6 @@ function checkLevelEnd() {
   const allDone = objectives.every(o => o.collected >= o.needed);
   if (allDone) {
     showEndScreen(true);
-  }
-
-  // Nascondi tutorial al primo swap riuscito
-  if (localStorage.getItem('sm_tutorial_done') !== '1') {
-    localStorage.setItem('sm_tutorial_done', '1');
-    tutorialOverlay.style.display = 'none';
   }
 }
 
