@@ -14,13 +14,14 @@ Un gioco match-3 giocabile in 90 secondi su mobile, con 10 livelli progressivi e
 
 ```
 SISTER_MATCH/
-├── index.html                # Gioco completo (vanilla JS)
-├── intro-photo.jpg           # Foto promozionale verticale (intro screen)
-├── footer-banner.jpg         # Banner logo Sister Act (footer gioco)
-├── sister-act-logo-oriz.png  # Logo orizzontale (topbar)
-├── audio_loop.mp3            # "Fammi Volare" loop 96kbps mono (1.9MB)
+├── index.html                # Gioco completo (vanilla JS + CSS inline)
+├── public/                    # Asset statici serviti dal web
+│   ├── intro-photo.jpg       # Foto promozionale verticale (intro screen)
+│   ├── footer-banner.jpg     # Banner orizzontale logo Sister Act (footer gioco)
+│   ├── logo-match-mania.png  # Logo trasparente "Sister Act Match Mania" (topbar, 52px)
+│   └── audio_loop.mp3        # "Fammi Volare" loop 96kbps mono (1.9MB)
 ├── sister-match-brief.md     # Brief di sviluppo originale
-├── assets/                   # Asset aggiuntivi
+├── assets/                   # Asset aggiuntivi (non serviti)
 ├── GRAFICHE/                 # Mockup di design + foto originali
 │   ├── SISTER ACT - GAME_1.jpg
 │   ├── SISTER ACT - GAME_2.jpg
@@ -44,10 +45,10 @@ SISTER_MATCH/
 
 | File | Stato | Uso |
 |------|-------|-----|
-| `intro-photo.jpg` | ✅ Incluso | Foto verticale promozionale, schermata intro |
-| `footer-banner.jpg` | ✅ Incluso | Banner logo Sister Act, footer overlay gioco |
-| `sister-act-logo-oriz.png` | ✅ Incluso | Logo orizzontale, topbar gioco |
-| `audio_loop.mp3` | ✅ Incluso (versione ottimizzata 96kbps) | Loop musicale, originale in `MUSICHE/` |
+| `intro-photo.jpg` | ✅ Incluso (in `public/`) | Foto verticale promozionale, schermata intro |
+| `footer-banner.jpg` | ✅ Incluso (in `public/`) | Banner logo Sister Act, footer overlay gioco (solo in schermata di gioco) |
+| `logo-match-mania.png` | ✅ Incluso (in `public/`) | Logo trasparente "Sister Act Match Mania", topbar gioco (52px) |
+| `audio_loop.mp3` | ✅ Incluso (in `public/`) | Loop musicale, originale in `MUSICHE/` |
 
 ## 🚀 Deploy
 
@@ -74,10 +75,11 @@ SISTER_MATCH/
 - [x] Shuffle silenzioso se nessuna mossa disponibile
 
 ### Grafica
-- [x] Schermata intro con foto promozionale verticale + simboli obiettivo + bottone
-- [x] Footer overlay con banner Sister Act a larghezza piena
-- [x] Logo orizzontale nella topbar (52px) con fallback CSS
-- [x] Effetto lampo dorato sullo sfondo ad ogni match (radial-gradient, 0.8s)
+- [x] Schermata intro con foto promozionale verticale + simboli obiettivo + bottone (nessun logo/tagline)
+- [x] Footer overlay con banner Sister Act — visibile **solo nella schermata di gioco** (nascosto in intro, fade-in all'avvio)
+- [x] Logo trasparente "Sister Act Match Mania" nella topbar (52px, PNG con trasparenza)
+- [x] Effetto lampo dorato sullo sfondo ad ogni match (radial-gradient ellisse 80%×50%, posizione top 20%, durata 0.8s)
+- [x] Layout desktop centrato: app a larghezza fissa 480px con sfondo nero e ombra laterale
 
 ### Audio
 - [x] Audio loop + mute con persistenza localStorage
@@ -95,7 +97,7 @@ SISTER_MATCH/
 
 ### Altro
 - [x] Favicon emoji 🎤
-- [x] Griglia a pieno schermo con footer overlay fisso
+- [x] Griglia a pieno schermo con footer overlay fisso (solo in gioco)
 
 ## ⏳ Da fare (Fase 2)
 

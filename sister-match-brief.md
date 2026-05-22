@@ -61,7 +61,7 @@ Il committente fornirà i seguenti file da posizionare nella stessa cartella di 
 |------|-------------|-----|
 | `audio_loop.mp3` | Traccia "Fammi Volare (Nightclub, sezione lenta 118 BPM)", ottimizzata a 96 kbps, ~1,9 MB, durata 2'46" | Loop di sottofondo del gioco |
 | `intro-photo.jpg` | Foto promozionale verticale Sister Act | Schermata intro (a larghezza piena sopra bottoni) |
-| `footer-banner.jpg` | Banner orizzontale logo Sister Act | Footer overlay gioco (larghezza piena, fisso in basso) |
+| `footer-banner.jpg` | Banner orizzontale logo Sister Act | Footer overlay gioco (larghezza piena, fisso in basso, **visibile solo in schermata di gioco**) |
 | `sister-act-logo-oriz.png` | Logo ufficiale orizzontale, rosso script con outline cream su sfondo trasparente | Topbar gioco |
 | `sister-act-logo-vert.png` | Logo ufficiale verticale, stessa identità | Schermata finale (premio) |
 
@@ -116,7 +116,7 @@ Caricare via Google Fonts:
 
 ### 4.1 Layout generale
 
-App single-page, layout mobile portrait, `max-width: 480px` centrato. Struttura verticale:
+App single-page, layout mobile portrait, `max-width: 480px` centrato. Su desktop l'app è centrata con sfondo nero ai lati e ombra laterale (`box-shadow`). Struttura verticale:
 
 ```
 ┌──────────────────────────┐
@@ -129,11 +129,13 @@ App single-page, layout mobile portrait, `max-width: 480px` centrato. Struttura 
 │  (a pieno schermo, footer è overlay)   │
 ├──────────────────────────┤
 │  FOOTER OVERLAY (banner, fixed bottom) │
+│  ⚠️ Visibile SOLO nella schermata di  │
+│     gioco, nascosto nella intro        │
 └──────────────────────────┘
 ```
 
 ### 4.2 Overlay (full-screen, z-index alto)
-- `#introOverlay` — schermata iniziale con logo e tagline
+- `#introOverlay` — schermata iniziale con foto promozionale e bottone (NESSUN logo o tagline separati)
 - `#cutsceneOverlay` — narrazione tra un livello e l'altro (vedi §6)
 - `#endOverlay` — fine livello (win/lose)
 - `#prizeOverlay` — schermata premio finale (post-livello 10) ⭐ §11
@@ -309,7 +311,7 @@ La Madre Superiora è scettica sul coro. L'utente deve "convincerla" raccogliend
 
 ### 8.1 Top bar
 - Pulsante "Atto X" (a sinistra, pill dorata)
-- Logo/titolo "Sister Match" al centro (font display)
+- Logo trasparente "Sister Act Match Mania" al centro (PNG `logo-match-mania.png`, altezza 52px, con fallback CSS)
 - Bottoni icona a destra: 🔊/🔇 mute, ↻ restart
 
 ### 8.2 HUD principale (sotto la topbar)
@@ -358,11 +360,12 @@ Se la generazione audio via Web Audio appare rischiosa, **omettere completamente
 - Lo stato "tutorial visto" salvato in `localStorage` (chiave `sm_tutorial_done`) per non rimostrarlo
 
 ### 10.2 Schermata intro
-- Foto promozionale verticale Sister Act in alto (a larghezza piena, scrollabile se serve)
+- Foto promozionale verticale Sister Act in alto (a larghezza piena, scrollabile se serve, **nessun max-height che tagli l'immagine**)
 - Sotto la foto: anteprima dei simboli obiettivo del livello 1
 - Bottone "Inizia a giocare" (gold)
 - Opzione "Riprendi dal livello X" se progresso salvato
 - NESSUN logo, tagline o sub-tagline separati (la foto contiene già il branding)
+- Footer banner **nascosto** in questa schermata, appare con fade-in solo quando si chiude l'overlay intro
 
 ---
 
@@ -535,11 +538,12 @@ L'LLM deve evitare attivamente questi errori comuni:
 ```
 sister-match/
 ├── index.html
-├── audio_loop.mp3
-├── intro-photo.jpg
-├── footer-banner.jpg
-├── sister-act-logo-oriz.png
-├── sister-act-logo-vert.png
+├── public/
+│   ├── audio_loop.mp3
+│   ├── intro-photo.jpg
+│   ├── footer-banner.jpg
+│   ├── logo-match-mania.png
+│   └── sister-act-logo-vert.png
 └── README.md (opzionale, istruzioni deploy)
 ```
 
