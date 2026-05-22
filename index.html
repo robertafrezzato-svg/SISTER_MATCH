@@ -897,7 +897,7 @@ function checkLevelEnd() {
     if (allDone) {
       showEndScreen(true);
     } else {
-      showEndScreen(false, 'Sister, riprova! Ci crediamo in te!');
+      showEndScreen(false, 'Sister, riprova! Noi crediamo in te!');
     }
     return;
   }
@@ -971,7 +971,7 @@ function showEndScreen(won, loseMsg) {
   } else {
     $('endTitle').textContent = 'Oh no!';
     $('endTitle').style.color = 'var(--red)';
-    $('endSub').textContent = loseMsg || 'Sister, riprova!';
+    $('endSub').textContent = loseMsg || 'Sister, riprova! Noi crediamo in te!';
     $('endStars').textContent = '';
     $('endScore').textContent = '';
 
