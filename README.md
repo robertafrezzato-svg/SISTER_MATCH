@@ -1,6 +1,6 @@
 # SISTER MATCH — Il gioco di Sister Act il Musical
 
-Match-3 game web per la campagna marketing del musical **Sister Act** in scena al Teatro Nazionale di Milano da ottobre.
+Match-3 game web per la campagna marketing del musical **Sister Act** in scena al Teatro Nazionale di Milano dall'8 ottobre.
 
 ## 🎮 Gioca
 
@@ -8,25 +8,21 @@ Match-3 game web per la campagna marketing del musical **Sister Act** in scena a
 
 ## 🎯 Cos'è
 
-Un gioco match-3 giocabile in 90 secondi su mobile, con 10 livelli progressivi e un boss finale. Completando tutti i livelli si accede alla schermata premio con biglietti per l'anteprima dell'8 ottobre.
+Un gioco match-3 giocabile in 90 secondi su mobile, con 10 livelli progressivi e un boss finale. Completando tutti i livelli si accede alla schermata premio con form email per codice sconto esclusivo.
 
 ## 📦 Struttura progetto
 
 ```
 SISTER_MATCH/
 ├── index.html                # Gioco completo (vanilla JS + CSS inline)
-├── public/                    # Asset statici serviti dal web
-│   ├── intro-photo.jpg       # Foto promozionale verticale (intro screen)
-│   ├── footer-banner.jpg     # Banner orizzontale logo Sister Act (footer gioco)
-│   ├── logo-match-mania.png  # Logo trasparente "Sister Act Match Mania" (topbar, 52px)
-│   └── audio_loop.mp3        # "Fammi Volare" loop 96kbps mono (1.9MB)
+├── sister-act-logo-oriz.png  # Logo trasparente topbar (52px)
 ├── sister-match-brief.md     # Brief di sviluppo originale
 ├── assets/                   # Asset aggiuntivi (non serviti)
 ├── GRAFICHE/                 # Mockup di design + foto originali
 │   ├── SISTER ACT - GAME_1.jpg
 │   ├── SISTER ACT - GAME_2.jpg
-│   ├── footer-banner.jpg     # Originale banner footer
-│   └── intro-vertical.jpg   # Originale foto intro
+│   ├── footer-banner.jpg
+│   └── intro-vertical.jpg
 ├── MUSICHE/                  # Tracce originali (non ottimizzate)
 │   ├── 01 - FAMMI VOLARE NIGHTCLUB  , sezione lenta a 118 2.mp3
 │   └── 17 - SISTER ACT.mp3
@@ -43,12 +39,10 @@ SISTER_MATCH/
 
 ## 🎨 Asset grafici
 
-| File | Stato | Uso |
-|------|-------|-----|
-| `intro-photo.jpg` | ✅ Incluso (in `public/`) | Foto verticale promozionale, schermata intro |
-| `footer-banner.jpg` | ✅ Incluso (in `public/`) | Banner logo Sister Act, footer overlay gioco (solo in schermata di gioco) |
-| `logo-match-mania.png` | ✅ Incluso (in `public/`) | Logo trasparente "Sister Act Match Mania", topbar gioco (52px) |
-| `audio_loop.mp3` | ✅ Incluso (in `public/`) | Loop musicale, originale in `MUSICHE/` |
+- `intro-photo.jpg` — Foto verticale promozionale, schermata intro (`max-height:75vh`, `object-fit:cover`)
+- `footer-banner.jpg` — Banner logo Sister Act, footer overlay gioco (solo schermata di gioco)
+- `sister-act-logo-oriz.png` — Logo trasparente "Sister Act Match Mania", topbar gioco (52px)
+- `audio_loop.mp3` — Loop musicale "Fammi Volare", 96kbps mono (~1.9MB)
 
 ## 🚀 Deploy
 
@@ -68,11 +62,38 @@ SISTER_MATCH/
 - [x] Swap via swipe + tap-select, gravità, combo
 - [x] 10 livelli con obiettivi e bilanciamento progressivo
 - [x] Boss livello 10 — Madre Superiora con barra pazienza
-- [x] 9 cutscene tra i livelli (tono divertente)
+- [x] 9 cutscene tra i livelli (testi aggiornati dal committente)
 - [x] HUD obiettivi, mosse, stelle (1/2/3)
 - [x] Tutorial alla prima partita (pointer-events: none, auto-scompare 5 sec)
 - [x] Combo toast: Amen → Halleluja → Miracolo → Divino
 - [x] Shuffle silenzioso se nessuna mossa disponibile
+
+### Livelli — Bilanciamento aggiornato
+
+| # | Nome | Mosse | Obiettivi |
+|---|------|-------|-----------|
+| 1 | Coro alle Prime Armi | 25 | 🎤 ×12, 🙏 ×10 |
+| 2 | La Prima Lezione | 24 | 🎤 ×14, 🕯️ ×10 |
+| 3 | Hallelujah! | 22 | 🎤 ×15, 🕯️ ×12, 📿 ×8 |
+| 4 | Le Voci si Alzano | 22 | 🙏 ×15, 📿 ×12, 💿 ×8 |
+| 5 | Che Favola! | 20 | 💿 ×18, 💄 ×12, 🎤 ×10 |
+| 6 | La Chiesa Si Riempie | 20 | 🕯️ ×16, 🙏 ×14, 📿 ×12 |
+| 7 | La Stampa Ne Parla | 19 | 🎤 ×18, 💿 ×15, 💄 ×10 |
+| 8 | Verso il Palcoscenico | 18 | 🎤 ×20, 🙏 ×16, 🕯️ ×14 |
+| 9 | La Notte Prima del Debutto | **25** | tutti i 6 simboli ×10 ciascuno |
+| 10 | **Madre Superiora** (BOSS) | 20 | 🎤 ×10, 🙏 ×12, 🕯️ ×8 |
+
+### Cutscene (testi aggiornati)
+
+- ATTO 2: "Suor Patrizia è entusiasta di te. Suor Lazzara è un osso duro. Continua a provare per convincerla!"
+- ATTO 3: "Le preghiere si trasformano in canzoni. Il convento non ha mai sentito nulla del genere."
+- ATTO 4: "Sento che stai prendendo ritmo! Anche la Madre Superiora ha smesso di tapparsi le orecchie. È un buon segno, fidati."
+- ATTO 5: "Il tuo sound sta crescendo, non fermarti adesso!"
+- ATTO 6: "La messa è sold out e il Monsignore balla. Tutto merito tuo. Ma il meglio deve ancora venire — continua!"
+- ATTO 7: "Sei finita sul giornale insieme al coro. Ora non puoi più fermarti — tutti ti stanno guardando!"
+- ATTO 8: "Il debutto si avvicina e abbiamo bisogno di te al massimo. Allenati ancora!"
+- ATTO 9: "Domani è il grande giorno. Un'ultima prova e poi si va in scena."
+- ATTO 10: "Questo è il momento della verità. La Madre Superiora non si convince facilmente. Ma tu sei arrivata fin qui. Adesso vai e conquistala!"
 
 ### Grafica
 - [x] Schermata intro con foto promozionale verticale + simboli obiettivo + bottone (nessun logo/tagline)
@@ -87,9 +108,22 @@ SISTER_MATCH/
 - [x] Audio loop + mute con persistenza localStorage
 - [x] Effetti sonori Web Audio (match blip, win fanfara)
 
-### Premio e condivisione
-- [x] Schermata premio finale con coriandoli e CTA
-- [x] Social share (navigator.share + fallback WhatsApp)
+### Schermata premio (post-livello 10)
+- [x] Overlay celebrativo con logo, coriandoli dorati CSS
+- [x] Titolo "COMPLIMENTI!" + "HAI SUPERATO TUTTI I LIVELLI"
+- [x] Testo: "Inserisci la tua mail per ricevere un codice sconto esclusivo! Ti aspettiamo a teatro per vedere Sister Act il Musical in scena dall'8 ottobre"
+- [x] Form email con validazione
+- [x] Checkbox privacy obbligatorio con link informativa
+- [x] Checkbox marketing opzionale
+- [x] Bottone "RICEVI IL CODICE SCONTO" → per ora log in console, Supabase in TODO
+- [x] Messaggio conferma "✉️ Codice inviato! Controlla la tua email."
+- [x] Bottone condivisione social (navigator.share + fallback WhatsApp)
+
+### Messaggio sconfitta
+- [x] "Sister, riprova! Noi crediamo in te!" (mosse esaurite o boss)
+
+### Condivisione social
+- [x] Messaggio aggiornato: "Ho fatto [N] punti a Sister Match! Riesci a battermi? Sister Act Il Musical in scena al Teatro Nazionale di Milano dall'8 ottobre #sisteractilmusical"
 - [x] Meta tag Open Graph
 
 ### Persistenza

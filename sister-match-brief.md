@@ -247,11 +247,11 @@ Per ogni livello: nome narrativo, mosse disponibili, obiettivi (simbolo + quanti
 | 2 | La Prima Lezione | 24 | 🎤 ×14, 🕯️ ×10 |
 | 3 | Hallelujah! | 22 | 🎤 ×15, 🕯️ ×12, 📿 ×8 |
 | 4 | Le Voci si Alzano | 22 | 🙏 ×15, 📿 ×12, 💿 ×8 |
-| 5 | Disco Inferno | 20 | 💿 ×18, 💄 ×12, 🎤 ×10 |
+|| 5 | Che Favola! | 20 | 💿 ×18, 💄 ×12, 🎤 ×10 |
 | 6 | La Chiesa Si Riempie | 20 | 🕯️ ×16, 🙏 ×14, 📿 ×12 |
 | 7 | La Stampa Ne Parla | 19 | 🎤 ×18, 💿 ×15, 💄 ×10 |
 | 8 | Verso il Palcoscenico | 18 | 🎤 ×20, 🙏 ×16, 🕯️ ×14 |
-| 9 | La Notte Prima del Debutto | 17 | tutti i 6 simboli ×10 ciascuno |
+|| 9 | La Notte Prima del Debutto | **25** | tutti i 6 simboli ×10 ciascuno |
 | 10 | **Madre Superiora** (BOSS) | 20 | vedi §7 |
 
 ### 6.3 Cutscenes tra un livello e l'altro
@@ -266,14 +266,20 @@ Tra ogni livello superato e il successivo, mostrare una **cutscene testuale brev
 [bottone "Avanti"]
 ```
 
-**Tono storyline** (richiesta del committente): variante tra **"divertente"**, **"epica"** e **"misteriosa"**. L'LLM è libero di sviluppare le frasi di contesto scegliendo una di queste varianti coerentemente per tutta la sequenza. Es. di tono "divertente":
-- Liv 2: "*Sister Mary Patrick è entusiasta. Sister Mary Lazarus, un po' meno. Tu ci credi!*"
-- Liv 5: "*Le suore stanno scoprendo gli anni '90. Ora vogliono tutte un rossetto.*"
+**Testi cutscene aggiornati dal committente:**
 
-Es. tono "epico":
-- Liv 2: "*Il primo passo è stato fatto. La voce si alza. Il convento, da oggi, non è più lo stesso.*"
+- ATTO 2: "Suor Patrizia è entusiasta di te. Suor Lazzara è un osso duro. Continua a provare per convincerla!"
+- ATTO 3: "Le preghiere si trasformano in canzoni. Il convento non ha mai sentito nulla del genere."
+- ATTO 4: "Sento che stai prendendo ritmo! Anche la Madre Superiora ha smesso di tapparsi le orecchie. È un buon segno, fidati."
+- ATTO 5: "Il tuo sound sta crescendo, non fermarti adesso!"
+- ATTO 6: "La messa è sold out e il Monsignore balla. Tutto merito tuo. Ma il meglio deve ancora venire — continua!"
+- ATTO 7: "Sei finita sul giornale insieme al coro. Ora non puoi più fermarti — tutti ti stanno guardando!"
+- ATTO 8: "Il debutto si avvicina e abbiamo bisogno di te al massimo. Allenati ancora!"
+- ATTO 9: "Domani è il grande giorno. Un'ultima prova e poi si va in scena."
+- ATTO 10: "Questo è il momento della verità. La Madre Superiora non si convince facilmente. Ma tu sei arrivata fin qui. Adesso vai e conquistala!"
 
-L'LLM **sceglie una variante di tono e la mantiene fino al livello 10**.
+**Tono storyline originale** (per riferimento, ora sostituito dai testi sopra):
+Variante tra **"divertente"**, **"epica"** e **"misteriosa"**.
 
 ---
 
@@ -298,10 +304,10 @@ La Madre Superiora è scettica sul coro. L'utente deve "convincerla" raccogliend
 
 ### 7.4 Cutscene di intro al boss
 ```
-[ATTO 10 — IL BOSS FINALE]
+[ATTO 10 DI 10]
 [icona 👩🏾‍✈️]
 [Titolo: "Madre Superiora"]
-[Testo: "La Madre Superiora non è convinta. Devi conquistare la sua fiducia con la preghiera e il canto. Non perderla di vista: la sua pazienza è limitata!"]
+[Testo: "Questo è il momento della verità. La Madre Superiora non si convince facilmente. Ma tu sei arrivata fin qui. Adesso vai e conquistala!"]
 [bottone "Inizia la sfida"]
 ```
 
@@ -375,7 +381,7 @@ Quando l'utente completa il livello 10 (boss), mostrare un overlay celebrativo d
 
 ### 11.1 Contenuto
 ```
-[Logo verticale Sister Act in alto]
+[Logo orizzontale Sister Act in alto]
 
 [Titolo gigante font Lobster rosso/cream:]
 "COMPLIMENTI!"
@@ -384,53 +390,59 @@ Quando l'utente completa il livello 10 (boss), mostrare un overlay celebrativo d
 "HAI SUPERATO TUTTI I LIVELLI"
 
 [Testo principale, font body 16-18px, centrato:]
-"Ti regaliamo i biglietti per l'Anteprima esclusiva
-di Sister Act il Musical
-in scena l'8 ottobre"
+"Inserisci la tua mail per ricevere un codice sconto esclusivo!
 
-[CTA principale grande gold:]
-"RISCATTA I BIGLIETTI"
-→ apre link a pagina dedicata (placeholder: https://sisteractmilano.it/premio
-   il committente sostituirà con l'URL reale del modulo di riscatto)
+Ti aspettiamo a teatro per vedere Sister Act il Musical in scena dall'8 ottobre"
 
-[CTA secondaria minore:]
+[Form email]
+- Input email con validazione
+- Checkbox privacy obbligatorio: "Ho letto e accetto la informativa sulla privacy"
+  → link a https://sisteractmilano.it/privacy
+- Checkbox marketing opzionale: "Accetto di ricevere comunicazioni promozionali su Sister Act il Musical"
+- Bottone CTA gold: "RICEVI IL CODICE SCONTO"
+  → Per ora logga in console, il salvataggio su Supabase è in TODO (Fase 2)
+
+[Dopo invio form:]
+"✉️ Codice inviato! Controlla la tua email."
+→ Il form scompare, appare il messaggio di conferma
+
+[CTA secondaria:]
 "📲 Condividi con gli amici"
-→ apre share WhatsApp con testo:
-   "Ho appena vinto i biglietti per l'anteprima di Sister Act!
-    Provaci anche tu: [URL_DEL_GIOCO]"
+→ apre share (navigator.share + fallback WhatsApp) con testo:
+   "Ho fatto [N] punti a Sister Match!
+    Riesci a battermi?
+    Sister Act Il Musical in scena al Teatro Nazionale di Milano dall'8 ottobre
+    #sisteractilmusical"
 ```
 
 ### 11.2 Animazioni
 - Apparizione del logo con bounce
 - Coriandoli dorati che cadono (CSS keyframes, no librerie)
 - Bottone CTA con pulse leggero
-- Audio: opzionale stacco musicale di celebrazione (se non disponibile, alza volume del loop principale a 0.7 in questa schermata)
+- Audio: alza volume del loop principale a 0.7 in questa schermata
 
-### 11.3 Riscatto biglietti — chiarimento importante
-**Il gioco NON gestisce direttamente il riscatto.** La pagina di destinazione del bottone "Riscatta i biglietti" (`https://sisteractmilano.it/premio`) sarà sviluppata separatamente dal committente e gestirà:
-- Form email + dati per contatto
-- Consenso GDPR
-- Limite massimo biglietti (logica anti-frode)
-- Conferma riscatto via email
-
-Il gioco si limita a **passare l'utente** a quella pagina con un parametro UTM tracking, es.:
-```
-https://sisteractmilano.it/premio?source=sister-match&score=12345
-```
-Dove `score` è il punteggio totale accumulato dall'utente nei 10 livelli (può servire per leaderboard, gamification, segmentazione).
+### 11.3 Funzionalità form email
+- Validazione email (deve contenere @)
+- Checkbox privacy obbligatorio (bordo rosso se non spuntato al submit)
+- Checkbox marketing opzionale
+- Dopo submit valido: nascondi form, mostra conferma "✉️ Codice inviato! Controlla la tua email."
+- **TODO Fase 2:** Salvataggio dati su Supabase (tabella: email, marketing_opt_in, score, timestamp)
 
 ### 11.4 Cosa succede se l'utente perde il livello 10
-La schermata premio **non appare**. L'utente vede la schermata di game-over standard con incoraggiamento a riprovare ("La Madre Superiora ti dà un'altra chance!").
+La schermata premio **non appare**. L'utente vede la schermata di game-over standard con incoraggiamento: **"Sister, riprova! Noi crediamo in te!"**
 
 ---
 
 ## 12. Condivisione social
 
-### 12.1 Bottone condividi (presente a fine ogni livello)
+### 12.1 Bottone condividi (presente a fine ogni livello e nella schermata premio)
 Usare `navigator.share()` se disponibile, altrimenti fallback WhatsApp Web:
 
 ```js
-const text = `Ho fatto ${score} punti a Sister Match! 🎤✨ Sister Act il Musical, al Teatro Nazionale di Milano da ottobre. #SisterActMilano`;
+const text = `Ho fatto ${score} punti a Sister Match!
+Riesci a battermi?
+Sister Act Il Musical in scena al Teatro Nazionale di Milano dall'8 ottobre
+#sisteractilmusical`;
 const url = location.href;
 
 if (navigator.share) {
@@ -495,18 +507,23 @@ Prima di consegnare, l'LLM esecutore deve **verificare ciascun punto**:
 
 ### 14.4 Schermata premio
 - [ ] Appare SOLO dopo aver vinto il livello 10
-- [ ] Testo conforme: "Complimenti! Hai superato tutti i livelli. Ti regaliamo i biglietti per l'Anteprima esclusiva di Sister Act il Musical in scena l'8 ottobre"
-- [ ] Bottone "Riscatta i biglietti" punta a URL placeholder configurabile
-- [ ] Bottone "Condividi" funzionante (WhatsApp/Share API)
+- [ ] Testo conforme: "Inserisci la tua mail per ricevere un codice sconto esclusivo! Ti aspettiamo a teatro per vedere Sister Act il Musical in scena dall'8 ottobre"
+- [ ] Form email con validazione, checkbox privacy obbligatorio, checkbox marketing opzionale
+- [ ] Messaggio conferma "✉️ Codice inviato! Controlla la tua email." dopo submit
+- [ ] Bottone "Condividi con gli amici" funzionante (WhatsApp/Share API)
+- [ ] Messaggio condivisione aggiornato: "Ho fatto [N] punti a Sister Match! Riesci a battermi? Sister Act Il Musical in scena al Teatro Nazionale di Milano dall'8 ottobre #sisteractilmusical"
 
-### 14.5 Performance
+### 14.5 Sconfitta
+- [ ] Messaggio game-over: "Sister, riprova! Noi crediamo in te!"
+
+### 14.6 Performance
 - [ ] Caricamento iniziale &lt; 5 secondi su 4G
 - [ ] Peso totale &lt; 3 MB
 - [ ] 60 FPS sulle animazioni di match e cascata
 - [ ] Nessun warning in console
 - [ ] Nessuna dipendenza esterna a runtime tranne font Google
 
-### 14.6 Codice
+### 14.7 Codice
 - [ ] HTML semantico (heading, button, img con alt)
 - [ ] CSS organizzato con variabili e commenti per sezione
 - [ ] JS commentato in italiano, funzioni nominate, nessun codice morto
@@ -571,6 +588,7 @@ Il committente preferisce **decisioni concrete con motivazione** rispetto a list
 
 Dopo la consegna di questa versione, il committente pianificherà:
 - Sostituzione delle emoji con asset illustrati dal grafico (in particolare 🙏 → velo da suora)
+- Salvataggio email premio su Supabase (tabella: email, marketing_opt_in, score, timestamp)
 - Eventuale audio differenziato per livelli (es. tracks più intense ai livelli alti)
 - Versione bilingue IT/EN per pubblico turistico
 - Filtri Instagram/TikTok AR a tema
