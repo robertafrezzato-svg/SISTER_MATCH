@@ -1036,7 +1036,7 @@ function spawnConfetti() {
 
 // ===== CONDIVISIONE =====
 function shareResult(score) {
-  const text = 'Ho fatto ' + score + ' punti a Sister Match! \uD83C\uDFA4\u2728 Sister Act il Musical, al Teatro Nazionale di Milano da ottobre. #SisterActMilano';
+  const text = 'Ho fatto ' + score + ' punti a Sister Match!\nRiesci a battermi?\nSister Act Il Musical in scena al Teatro Nazionale di Milano dall\u20198 ottobre\n#sisteractilmusical';
   const url = location.href;
   if (navigator.share) {
     navigator.share({ title: 'Sister Match', text: text, url: url }).catch(() => {});
