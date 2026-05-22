@@ -111,6 +111,14 @@ button,a,[role="button"]{cursor:pointer}
 #prizeOverlay .prize-sub{font-family:var(--font-impact);font-size:18px;color:var(--gold);margin-bottom:16px}
 #prizeOverlay .prize-text{font-family:var(--font-body);font-size:17px;line-height:1.5;max-width:340px;color:var(--cream);margin-bottom:24px}
 #prizeOverlay .prize-btns{display:flex;flex-direction:column;gap:12px;align-items:center;width:100%;max-width:300px}
+#prizeOverlay .prize-form{display:flex;flex-direction:column;gap:10px;align-items:center;width:100%;max-width:300px}
+.prize-input{width:100%;padding:14px 16px;border:2px solid var(--gold);border-radius:12px;background:rgba(255,245,225,0.1);color:var(--cream);font-family:var(--font-body);font-size:16px;outline:none;transition:border-color 0.2s}
+.prize-input::placeholder{color:rgba(255,245,225,0.5)}
+.prize-input:focus{border-color:var(--gold);box-shadow:0 0 12px var(--halo)}
+.prize-checkbox{display:flex;align-items:flex-start;gap:8px;font-family:var(--font-body);font-size:12px;color:rgba(255,245,225,0.7);cursor:pointer;text-align:left;width:100%}
+.prize-checkbox input[type="checkbox"]{width:18px;height:18px;accent-color:var(--gold);flex-shrink:0;margin-top:2px;cursor:pointer}
+.prize-checkbox a{color:var(--gold);text-decoration:underline}
+.prize-success{font-family:var(--font-impact);font-size:16px;color:var(--gold);text-align:center;padding:8px 0}
 .confetti{position:absolute;width:8px;height:12px;border-radius:2px;animation:confettiFall linear forwards;pointer-events:none;z-index:101}
 
 /* ===== TUTORIAL OVERLAY ===== */
@@ -213,11 +221,15 @@ button,a,[role="button"]{cursor:pointer}
     <div class="logo-fallback" id="logoFallbackPrize" style="display:none">Sister<br>Act</div>
     <div class="prize-congrats">COMPLIMENTI!</div>
     <div class="prize-sub">HAI SUPERATO TUTTI I LIVELLI</div>
-    <div class="prize-text">Ti regaliamo i biglietti per l'Anteprima esclusiva di Sister Act il Musical in scena l'8 ottobre</div>
-    <div class="prize-btns">
-      <a href="https://sisteractmilano.it/premio?source=sister-match&score=0" class="btn btn-gold" id="btnPrize" style="animation:ctaPulse 2s ease infinite;width:100%">RISCATTA I BIGLIETTI</a>
-      <button class="btn btn-outline" id="btnShare" style="width:100%">📲 Condividi con gli amici</button>
+    <div class="prize-text">Inserisci la tua mail per ricevere un codice sconto esclusivo!<br><br>Ti aspettiamo a teatro per vedere Sister Act il Musical in scena dall\u20198 ottobre</div>
+    <div class="prize-form" id="prizeForm">
+      <input type="email" id="prizeEmail" class="prize-input" placeholder="La tua email" autocomplete="email" required>
+      <label class="prize-checkbox"><input type="checkbox" id="prizePrivacy" required><span>Ho letto e accetto la <a href="https://sisteractmilano.it/privacy" target="_blank" rel="noopener">informativa sulla privacy</a></span></label>
+      <label class="prize-checkbox"><input type="checkbox" id="prizeMarketing" ><span>Accetto di ricevere comunicazioni promozionali su Sister Act il Musical</span></label>
+      <button class="btn btn-gold" id="btnPrize" style="animation:ctaPulse 2s ease infinite;width:100%">RICEVI IL CODICE SCONTO</button>
+      <div class="prize-success" id="prizeSuccess" style="display:none">✉️ Codice inviato! Controlla la tua email.</div>
     </div>
+    <button class="btn btn-outline" id="btnShare" style="width:100%;max-width:300px;margin-top:12px">📲 Condividi con gli amici</button>
   </div>
 
   <!-- Tutorial Overlay -->
@@ -1004,8 +1016,35 @@ function showCutscene(completedLevel) {
 
 // ===== SCHERMATA PREMIO =====
 function showPrizeScreen() {
-  $('btnPrize').href = 'https://sisteractmilano.it/premio?source=sister-match&score=' + totalScore;
   $('btnShare').onclick = () => shareResult(totalScore);
+
+  $('btnPrize').onclick = function(e) {
+    e.preventDefault();
+    var email = $('prizeEmail').value.trim();
+    var privacy = $('prizePrivacy').checked;
+    var marketing = $('prizeMarketing').checked;
+
+    if (!email || !email.includes('@')) {
+      $('prizeEmail').style.borderColor = 'var(--red)';
+      setTimeout(function(){ $('prizeEmail').style.borderColor = ''; }, 1500);
+      return;
+    }
+    if (!privacy) {
+      $('prizePrivacy').parentElement.style.color = 'var(--red)';
+      setTimeout(function(){ $('prizePrivacy').parentElement.style.color = ''; }, 1500);
+      return;
+    }
+
+    // TODO: salvare email + marketing + score su Supabase
+    console.log('[PRIZE] Email:', email, '| Marketing:', marketing, '| Score:', totalScore);
+
+    $('btnPrize').style.display = 'none';
+    $('prizeEmail').style.display = 'none';
+    var checkboxes = $('prizeForm').querySelectorAll('.prize-checkbox');
+    checkboxes.forEach(function(cb){ cb.style.display = 'none'; });
+    $('prizeSuccess').style.display = 'block';
+  };
+
   prizeOverlay.classList.remove('hidden');
 
   // Alza volume in questa schermata

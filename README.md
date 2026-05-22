@@ -103,8 +103,8 @@ SISTER_MATCH/
 
 ## ⏳ Da fare (Fase 2)
 
+- [ ] Salvataggio email premio su Supabase (tabella: email, marketing_opt_in, score, timestamp)
 - [ ] Sostituire emoji con asset illustrati dal grafico (🙏 → velo da suora)
 - [ ] Inserire loghi PNG trasparenti quando forniti
-- [ ] URL riscatto biglietti definitivo (ora placeholder `sisteractmilano.it/premio`)
 - [ ] Versione bilingue IT/EN
 - [ ] Audio differenziato per livelli avanzati
