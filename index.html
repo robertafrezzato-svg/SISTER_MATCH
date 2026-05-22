@@ -70,7 +70,8 @@ button,a,[role="button"]{cursor:pointer}
 .boss-border{position:absolute;inset:0;border:3px solid transparent;border-radius:12px;pointer-events:none;z-index:1;transition:border-color 0.5s ease}
 
 /* ===== FOOTER ===== */
-.footer{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;padding:6px 0 4px;text-align:center;z-index:5;pointer-events:none;background:linear-gradient(transparent,rgba(0,0,0,0.7) 30%)}
+.footer{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;padding:6px 0 4px;text-align:center;z-index:5;pointer-events:none;background:linear-gradient(transparent,rgba(0,0,0,0.7) 30%);opacity:0;transition:opacity 0.5s ease}
+.footer.visible{opacity:1}
 .footer img{width:100%;max-height:100px;height:auto;object-fit:cover;object-position:center;display:block;pointer-events:auto}
 
 /* ===== OVERLAY BASE ===== */
@@ -335,6 +336,7 @@ function init() {
     $('btnResume').onclick = () => {
       currentLevel = maxLevel;
       introOverlay.classList.add('hidden');
+      document.querySelector('.footer').classList.add('visible');
       startLevel(currentLevel);
     };
     $('btnRestartAll').onclick = () => {
@@ -351,6 +353,7 @@ function init() {
   // Bottone start
   $('btnStart').onclick = () => {
     introOverlay.classList.add('hidden');
+    document.querySelector('.footer').classList.add('visible');
     playAudio();
     startLevel(currentLevel);
     // Mostra tutorial al primo gioco, sparisce dopo 5 secondi
