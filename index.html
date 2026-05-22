@@ -55,7 +55,7 @@ button,a,[role="button"]{cursor:pointer}
 .boss-label{font-size:11px;font-family:var(--font-impact);color:var(--gold)}
 
 /* ===== GRID ===== */
-.grid-wrap{flex:1;display:flex;align-items:center;justify-content:center;padding:4px;position:relative;overflow:hidden}
+.grid-wrap{flex:1;display:flex;align-items:flex-start;justify-content:center;padding:2px 4px 0;position:relative;overflow:hidden}
 .grid-container{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;width:100%;aspect-ratio:7/8;touch-action:none;user-select:none;-webkit-user-select:none;position:relative}
 .grid-cell{aspect-ratio:1;background:rgba(255,255,255,0.06);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:clamp(22px,5.5vw,36px);transition:transform 0.15s ease,opacity 0.2s ease;position:relative}
 .grid-cell.selected{transform:scale(1.15);box-shadow:0 0 0 3px var(--gold);z-index:2}
