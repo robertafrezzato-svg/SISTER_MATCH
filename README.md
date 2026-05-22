@@ -76,10 +76,12 @@ SISTER_MATCH/
 
 ### Grafica
 - [x] Schermata intro con foto promozionale verticale + simboli obiettivo + bottone (nessun logo/tagline)
+- [x] Intro photo: `max-height:75vh` con `object-fit:cover` (visibile senza scroll su desktop)
+- [x] Overlay (intro, cutscene, end, prize, tutorial) centrati a 480px su desktop (non a tutto schermo)
 - [x] Footer overlay con banner Sister Act — visibile **solo nella schermata di gioco** (nascosto in intro, fade-in all'avvio)
 - [x] Logo trasparente "Sister Act Match Mania" nella topbar (52px, PNG con trasparenza)
 - [x] Effetto lampo dorato sullo sfondo ad ogni match (radial-gradient ellisse 80%×50%, posizione top 20%, durata 0.8s)
-- [x] Layout desktop centrato: app a larghezza fissa 480px con sfondo nero e ombra laterale
+- [x] Layout desktop centrato: app + overlay a larghezza fissa 480px con sfondo nero e ombra laterale
 
 ### Audio
 - [x] Audio loop + mute con persistenza localStorage

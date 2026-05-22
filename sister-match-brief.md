@@ -116,7 +116,7 @@ Caricare via Google Fonts:
 
 ### 4.1 Layout generale
 
-App single-page, layout mobile portrait, `max-width: 480px` centrato. Su desktop l'app è centrata con sfondo nero ai lati e ombra laterale (`box-shadow`). Struttura verticale:
+App single-page, layout mobile portrait, `max-width: 480px` centrato. Su desktop l'app è centrata con sfondo nero ai lati e ombra laterale (`box-shadow`). **Tutti gli overlay (intro, cutscene, end, prize, tutorial) sono anch'essi centrati a 480px su desktop**, non a tutto schermo. Footer banner visibile solo nella schermata di gioco (nascosto in intro con fade-in). Struttura verticale:
 
 ```
 ┌──────────────────────────┐
@@ -360,7 +360,7 @@ Se la generazione audio via Web Audio appare rischiosa, **omettere completamente
 - Lo stato "tutorial visto" salvato in `localStorage` (chiave `sm_tutorial_done`) per non rimostrarlo
 
 ### 10.2 Schermata intro
-- Foto promozionale verticale Sister Act in alto (a larghezza piena, scrollabile se serve, **nessun max-height che tagli l'immagine**)
+- Foto promozionale verticale Sister Act in alto (a larghezza piena, `max-height:75vh` con `object-fit:cover` per adattarsi a viewport corti tipo desktop)
 - Sotto la foto: anteprima dei simboli obiettivo del livello 1
 - Bottone "Inizia a giocare" (gold)
 - Opzione "Riprendi dal livello X" se progresso salvato
