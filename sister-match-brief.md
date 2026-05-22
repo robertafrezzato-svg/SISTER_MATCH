@@ -60,7 +60,9 @@ Il committente fornirà i seguenti file da posizionare nella stessa cartella di 
 | File | Descrizione | Uso |
 |------|-------------|-----|
 | `audio_loop.mp3` | Traccia "Fammi Volare (Nightclub, sezione lenta 118 BPM)", ottimizzata a 96 kbps, ~1,9 MB, durata 2'46" | Loop di sottofondo del gioco |
-| `sister-act-logo-oriz.png` | Logo ufficiale orizzontale, rosso script con outline cream su sfondo trasparente | Schermata intro |
+| `intro-photo.jpg` | Foto promozionale verticale Sister Act | Schermata intro (a larghezza piena sopra bottoni) |
+| `footer-banner.jpg` | Banner orizzontale logo Sister Act | Footer overlay gioco (larghezza piena, fisso in basso) |
+| `sister-act-logo-oriz.png` | Logo ufficiale orizzontale, rosso script con outline cream su sfondo trasparente | Topbar gioco |
 | `sister-act-logo-vert.png` | Logo ufficiale verticale, stessa identità | Schermata finale (premio) |
 
 **Comportamento di fallback se i file non sono presenti:** l'LLM implementa una versione tipografica del logo usando CSS (vedi §4.3 fallback logo), così il gioco resta funzionante anche senza i file PNG mentre si attendono dal committente.
@@ -124,9 +126,9 @@ App single-page, layout mobile portrait, `max-width: 480px` centrato. Struttura 
 ├──────────────────────────┤
 │                                       │
 │  GRIGLIA DI GIOCO (7 colonne × 8 righe)│
-│                                       │
+│  (a pieno schermo, footer è overlay)   │
 ├──────────────────────────┤
-│  FOOTER ("Sister Act · Nazionale")    │
+│  FOOTER OVERLAY (banner, fixed bottom) │
 └──────────────────────────┘
 ```
 
@@ -209,6 +211,8 @@ Quando un match scatena una caduta che crea un altro match, è una combo. Mostra
 - Combo 5+: "**Divino!**"
 
 Toast con animazione di apparizione (scale 0 → 1.2 → 1, rotazione lieve), durata 1 secondo, font display rosso/oro.
+
+**Effetto lampo:** ad ogni match (incluso il primo di una sequenza combo), un lampo dorato (`radial-gradient` con centro bianco-oro) illumina la parte alta dello schermo per 0.8 secondi. L'effetto è un div `#matchFlash` con `position:fixed` e classe `.flash` aggiunta/rimossa ad ogni match. Il lampo rende il momento del match più soddisfacente e visivamente impattante sullo sfondo nero.
 
 ### 5.6 Punteggio
 - Match base: 10 punti × moltiplicatore combo
@@ -354,11 +358,11 @@ Se la generazione audio via Web Audio appare rischiosa, **omettere completamente
 - Lo stato "tutorial visto" salvato in `localStorage` (chiave `sm_tutorial_done`) per non rimostrarlo
 
 ### 10.2 Schermata intro
-- Logo grande Sister Act (PNG o fallback CSS)
-- Tagline: "Il gioco ufficiale del musical"
-- Sotto-tagline: "*Allinea, canta, fai miracoli*"
-- Anteprima dei 3 obiettivi del livello 1 (3 emoji con quantità)
+- Foto promozionale verticale Sister Act in alto (a larghezza piena, scrollabile se serve)
+- Sotto la foto: anteprima dei simboli obiettivo del livello 1
 - Bottone "Inizia a giocare" (gold)
+- Opzione "Riprendi dal livello X" se progresso salvato
+- NESSUN logo, tagline o sub-tagline separati (la foto contiene già il branding)
 
 ---
 
@@ -532,6 +536,8 @@ L'LLM deve evitare attivamente questi errori comuni:
 sister-match/
 ├── index.html
 ├── audio_loop.mp3
+├── intro-photo.jpg
+├── footer-banner.jpg
 ├── sister-act-logo-oriz.png
 ├── sister-act-logo-vert.png
 └── README.md (opzionale, istruzioni deploy)
