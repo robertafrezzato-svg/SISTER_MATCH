@@ -55,8 +55,8 @@ button,a,[role="button"]{cursor:pointer}
 .boss-label{font-size:11px;font-family:var(--font-impact);color:var(--gold)}
 
 /* ===== GRID ===== */
-.grid-wrap{flex:1;display:flex;align-items:center;justify-content:center;padding:4px;position:relative;overflow:hidden}
-.grid-container{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;width:100%;aspect-ratio:7/8;touch-action:none;user-select:none;-webkit-user-select:none;position:relative}
+.grid-wrap{flex:1;display:flex;align-items:center;justify-content:center;padding:4px;position:relative;overflow:hidden;min-height:0}
+.grid-container{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;height:100%;width:auto;aspect-ratio:7/8;touch-action:none;user-select:none;-webkit-user-select:none;position:relative}
 .grid-cell{aspect-ratio:1;background:rgba(255,255,255,0.06);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:clamp(22px,5.5vw,36px);transition:transform 0.15s ease,opacity 0.2s ease;position:relative}
 .grid-cell.selected{transform:scale(1.15);box-shadow:0 0 0 3px var(--gold);z-index:2}
 .grid-cell.hint{animation:hintPulse 0.6s ease infinite}
@@ -68,19 +68,23 @@ button,a,[role="button"]{cursor:pointer}
 .boss-border{position:absolute;inset:0;border:3px solid transparent;border-radius:12px;pointer-events:none;z-index:1;transition:border-color 0.5s ease}
 
 /* ===== FOOTER ===== */
-.footer{padding:8px;text-align:center;font-size:11px;color:rgba(255,245,225,0.35);font-family:var(--font-body);flex-shrink:0}
+.footer{padding:4px 2px;text-align:center;flex-shrink:0;background:rgba(0,0,0,0.3)}
+.footer img{width:100%;max-width:480px;max-height:60px;height:auto;object-fit:contain;display:block;margin:0 auto;border-radius:2px}
 
 /* ===== OVERLAY BASE ===== */
 .overlay{position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(10,10,10,0.98);text-align:center;padding:24px;transition:opacity 0.4s ease}
 .overlay.hidden{opacity:0;pointer-events:none}
 
 /* ===== INTRO OVERLAY ===== */
-#introOverlay .logo-intro{max-width:75vw;max-height:22vh;margin-bottom:16px;object-fit:contain;filter:drop-shadow(0 4px 12px rgba(0,0,0,0.5))}
+#introOverlay{justify-content:flex-start;padding:0;overflow-y:auto}
+#introOverlay .intro-photo{width:100%;max-height:55vh;object-fit:cover;object-position:center top;border-radius:0 0 16px 16px;filter:drop-shadow(0 8px 24px rgba(0,0,0,0.6));flex-shrink:0}
+#introOverlay .intro-bottom{display:flex;flex-direction:column;align-items:center;padding:24px 24px 32px;flex-shrink:0}
+#introOverlay .logo-intro{max-width:60vw;max-height:10vh;margin-bottom:12px;object-fit:contain;filter:drop-shadow(0 4px 12px rgba(0,0,0,0.5))}
 #introOverlay .logo-vert{max-width:70vw;max-height:30vh;margin-bottom:16px}
-#introOverlay .logo-fallback{font-family:var(--font-display);font-size:clamp(58px,18vw,110px);color:var(--red);text-shadow:4px 4px 0 var(--cream),8px 8px 0 var(--ink);transform:rotate(-5deg);line-height:0.85;margin-bottom:16px}
-#introOverlay .tagline{font-family:var(--font-display);font-size:clamp(20px,5vw,28px);color:var(--cream);margin-bottom:4px}
-#introOverlay .sub-tagline{font-family:var(--font-body);font-size:16px;font-weight:400;font-style:italic;color:var(--gold);margin-bottom:20px}
-#introOverlay .preview-objs{display:flex;gap:12px;justify-content:center;margin-bottom:24px;font-size:20px;font-weight:600}
+#introOverlay .logo-fallback{font-family:var(--font-display);font-size:clamp(42px,14vw,80px);color:var(--red);text-shadow:4px 4px 0 var(--cream),8px 8px 0 var(--ink);transform:rotate(-5deg);line-height:0.85;margin-bottom:12px}
+#introOverlay .tagline{font-family:var(--font-display);font-size:clamp(18px,4.5vw,24px);color:var(--cream);margin-bottom:4px}
+#introOverlay .sub-tagline{font-family:var(--font-body);font-size:15px;font-weight:400;font-style:italic;color:var(--gold);margin-bottom:16px}
+#introOverlay .preview-objs{display:flex;gap:12px;justify-content:center;margin-bottom:24px;font-size:22px;font-weight:600;flex-wrap:wrap}
 #introOverlay .resume-row{display:flex;gap:12px;margin-bottom:16px}
 .btn{display:inline-flex;align-items:center;justify-content:center;padding:14px 32px;border:none;border-radius:12px;font-family:var(--font-impact);font-size:16px;letter-spacing:0.5px;transition:transform 0.15s ease,box-shadow 0.15s ease}
 .btn:active{transform:scale(0.96)}
@@ -170,20 +174,23 @@ button,a,[role="button"]{cursor:pointer}
   </div>
 
   <!-- Footer -->
-  <div class="footer">Sister Act · Nazionale</div>
+  <div class="footer"><img src="footer-banner.jpg" alt="Sister Act Il Musical" onerror="this.parentElement.innerHTML='Sister Act · Nazionale'"></div>
 
   <!-- Intro Overlay -->
   <div class="overlay" id="introOverlay">
-    <img src="sister-act-logo-oriz.png" alt="Sister Act" class="logo-intro" onerror="this.style.display='none';document.getElementById('logoFallbackIntro').style.display='block'">
-    <div class="logo-fallback" id="logoFallbackIntro" style="display:none">Sister<br>Act</div>
-    <div class="tagline">Il gioco ufficiale del musical</div>
-    <div class="sub-tagline">Allinea, canta, fai miracoli</div>
-    <div class="preview-objs" id="previewObjs"></div>
-    <div class="resume-row" id="resumeRow" style="display:none">
-      <button class="btn btn-outline" id="btnResume">Riprendi dal livello <span id="resumeLvl"></span></button>
-      <button class="btn btn-outline" id="btnRestartAll">Ricomincia da capo</button>
+    <img src="intro-photo.jpg" alt="Sister Act Il Musical" class="intro-photo">
+    <div class="intro-bottom">
+      <img src="sister-act-logo-oriz.png" alt="Sister Act" class="logo-intro" onerror="this.style.display='none';document.getElementById('logoFallbackIntro').style.display='block'">
+      <div class="logo-fallback" id="logoFallbackIntro" style="display:none">Sister<br>Act</div>
+      <div class="tagline">Il gioco ufficiale del musical</div>
+      <div class="sub-tagline">Allinea, canta, fai miracoli</div>
+      <div class="preview-objs" id="previewObjs"></div>
+      <div class="resume-row" id="resumeRow" style="display:none">
+        <button class="btn btn-outline" id="btnResume">Riprendi dal livello <span id="resumeLvl"></span></button>
+        <button class="btn btn-outline" id="btnRestartAll">Ricomincia da capo</button>
+      </div>
+      <button class="btn btn-gold" id="btnStart">Inizia a giocare</button>
     </div>
-    <button class="btn btn-gold" id="btnStart">Inizia a giocare</button>
   </div>
 
   <!-- Cutscene Overlay -->
