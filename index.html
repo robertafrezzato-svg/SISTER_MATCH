@@ -47,6 +47,7 @@ button,a,[role="button"]{cursor:pointer}
 .obj-item{font-size:14px;font-weight:600;display:flex;align-items:center;gap:2px}
 .obj-item.done{color:var(--gold);animation:objPulse 0.5s ease}
 .obj-item .obj-sym{font-size:18px}
+.obj-item .obj-sym .symbol-img{width:18px;height:18px;object-fit:contain;vertical-align:middle}
 .hud-moves{font-family:var(--font-impact);font-size:28px;color:var(--gold);text-align:center;min-width:50px}
 
 /* ===== BOSS HUD ===== */
@@ -60,6 +61,7 @@ button,a,[role="button"]{cursor:pointer}
 .grid-wrap{flex:1;display:flex;align-items:flex-start;justify-content:center;padding:2px 4px 0;position:relative;overflow:hidden}
 .grid-container{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;width:100%;aspect-ratio:7/8;touch-action:none;user-select:none;-webkit-user-select:none;position:relative}
 .grid-cell{aspect-ratio:1;background:rgba(255,255,255,0.06);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:clamp(22px,5.5vw,36px);transition:transform 0.15s ease,opacity 0.2s ease;position:relative}
+.grid-cell .symbol-img{width:80%;height:80%;object-fit:contain;pointer-events:none}
 .grid-cell.selected{transform:scale(1.15);box-shadow:0 0 0 3px var(--gold);z-index:2}
 .grid-cell.hint{animation:hintPulse 0.6s ease infinite}
 .grid-cell.matched{animation:matchPop 0.45s ease forwards;background:var(--gold);border-radius:50%}
@@ -259,20 +261,20 @@ button,a,[role="button"]{cursor:pointer}
 
 // ===== COSTANTI =====
 const COLS = 7, ROWS = 8, CELL_TOTAL = COLS * ROWS;
-const SYMBOLS = ['🎤','🙏','🕯️','📿','💿','💄'];
+const SYMBOLS = ['🎤','🙏','🕯️','ROSARY','💿','💄'];
 const COMBO_MSG = { 2: 'Amen!', 3: 'Halleluja!', 4: 'Miracolo!', 5: 'Divino!' };
 
 // ===== DEFINIZIONE DEI 10 LIVELLI =====
 const LEVELS = [
   { name:'Coro alle Prime Armi', moves:25, objs:[{s:'🎤',n:12},{s:'🙏',n:10}] },
   { name:'La Prima Lezione', moves:24, objs:[{s:'🎤',n:14},{s:'🕯️',n:10}] },
-  { name:'Hallelujah!', moves:22, objs:[{s:'🎤',n:15},{s:'🕯️',n:12},{s:'📿',n:8}] },
-  { name:'Le Voci si Alzano', moves:22, objs:[{s:'🙏',n:15},{s:'📿',n:12},{s:'💿',n:8}] },
+  { name:'Hallelujah!', moves:22, objs:[{s:'🎤',n:15},{s:'🕯️',n:12},{s:'ROSARY',n:8}] },
+  { name:'Le Voci si Alzano', moves:22, objs:[{s:'🙏',n:15},{s:'ROSARY',n:12},{s:'💿',n:8}] },
   { name:'Che Favola!', moves:20, objs:[{s:'💿',n:18},{s:'💄',n:12},{s:'🎤',n:10}] },
-  { name:'La Chiesa Si Riempie', moves:20, objs:[{s:'🕯️',n:16},{s:'🙏',n:14},{s:'📿',n:12}] },
+  { name:'La Chiesa Si Riempie', moves:20, objs:[{s:'🕯️',n:16},{s:'🙏',n:14},{s:'ROSARY',n:12}] },
   { name:'La Stampa Ne Parla', moves:19, objs:[{s:'🎤',n:18},{s:'💿',n:15},{s:'💄',n:10}] },
   { name:'Verso il Palcoscenico', moves:18, objs:[{s:'🎤',n:20},{s:'🙏',n:16},{s:'🕯️',n:14}] },
-  { name:'La Notte Prima del Debutto', moves:25, objs:[{s:'🎤',n:10},{s:'🙏',n:10},{s:'🕯️',n:10},{s:'📿',n:10},{s:'💿',n:10},{s:'💄',n:10}] },
+  { name:'La Notte Prima del Debutto', moves:25, objs:[{s:'🎤',n:10},{s:'🙏',n:10},{s:'🕯️',n:10},{s:'ROSARY',n:10},{s:'💿',n:10},{s:'💄',n:10}] },
   { name:'Madre Superiora', moves:20, objs:[{s:'🎤',n:10},{s:'🙏',n:12},{s:'🕯️',n:8}], boss:true }
 ];
 
@@ -452,6 +454,7 @@ function randomSymbol(row, col) {
 
 // ===== RENDERING SIMBOLO =====
 function renderSymbol(sym) {
+  if (sym === 'ROSARY') return '<img src="rosary.jpg" alt="📿" class="symbol-img">';
   return sym; // Centralizzata per futura sostituzione con <img>
 }
 
@@ -467,7 +470,7 @@ function renderGrid() {
       cell.className = 'grid-cell';
       cell.dataset.row = r;
       cell.dataset.col = c;
-      cell.textContent = renderSymbol(grid[r][c]);
+      cell.innerHTML = renderSymbol(grid[r][c]);
       gridEl.appendChild(cell);
     }
   }
@@ -475,7 +478,7 @@ function renderGrid() {
 
 function updateCell(r, c) {
   const cell = getCellEl(r, c);
-  if (cell) cell.textContent = renderSymbol(grid[r][c]);
+  if (cell) cell.innerHTML = renderSymbol(grid[r][c]);
 }
 
 function getCellEl(r, c) {
@@ -581,8 +584,8 @@ async function attemptSwap(r1, c1, r2, c2) {
   // Animazione swap
   const el1 = getCellEl(r1, c1);
   const el2 = getCellEl(r2, c2);
-  if (el1) { el1.textContent = renderSymbol(sym2); el1.classList.add('swapping'); }
-  if (el2) { el2.textContent = renderSymbol(sym1); el2.classList.add('swapping'); }
+  if (el1) { el1.innerHTML = renderSymbol(sym2); el1.classList.add('swapping'); }
+  if (el2) { el2.innerHTML = renderSymbol(sym1); el2.classList.add('swapping'); }
 
   await wait(200);
   if (el1) el1.classList.remove('swapping');
