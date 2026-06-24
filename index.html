@@ -1044,7 +1044,8 @@ function showPrizeScreen() {
     var privacy = $('prizePrivacy').checked;
     var marketing = $('prizeMarketing').checked;
 
-    if (!email || !email.includes('@')) {
+    var emailRe = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+    if (!email || email.length > 254 || !emailRe.test(email)) {
       $('prizeEmail').style.borderColor = 'var(--red)';
       setTimeout(function(){ $('prizeEmail').style.borderColor = ''; }, 1500);
       return;
