@@ -263,20 +263,20 @@ button,a,[role="button"]{cursor:pointer}
 
 // ===== COSTANTI =====
 const COLS = 7, ROWS = 8, CELL_TOTAL = COLS * ROWS;
-const SYMBOLS = ['🎤','CHURCH','🕯️','BALL','💿','SHOE'];
+const SYMBOLS = ['🎤','CHURCH','🕯️','NUN2','💿','SHOE'];
 const COMBO_MSG = { 2: 'Amen!', 3: 'Halleluja!', 4: 'Miracolo!', 5: 'Divino!' };
 
 // ===== DEFINIZIONE DEI 10 LIVELLI =====
 const LEVELS = [
   { name:'Coro alle Prime Armi', moves:25, objs:[{s:'🎤',n:12},{s:'CHURCH',n:10}] },
   { name:'La Prima Lezione', moves:24, objs:[{s:'🎤',n:14},{s:'🕯️',n:10}] },
-  { name:'Hallelujah!', moves:22, objs:[{s:'🎤',n:15},{s:'🕯️',n:12},{s:'BALL',n:8}] },
-  { name:'Le Voci si Alzano', moves:22, objs:[{s:'CHURCH',n:15},{s:'BALL',n:12},{s:'💿',n:8}] },
+  { name:'Hallelujah!', moves:22, objs:[{s:'🎤',n:15},{s:'🕯️',n:12},{s:'NUN2',n:8}] },
+  { name:'Le Voci si Alzano', moves:22, objs:[{s:'CHURCH',n:15},{s:'NUN2',n:12},{s:'💿',n:8}] },
   { name:'Che Favola!', moves:20, objs:[{s:'💿',n:18},{s:'SHOE',n:12},{s:'🎤',n:10}] },
-  { name:'La Chiesa Si Riempie', moves:20, objs:[{s:'🕯️',n:16},{s:'CHURCH',n:14},{s:'BALL',n:12}] },
+  { name:'La Chiesa Si Riempie', moves:20, objs:[{s:'🕯️',n:16},{s:'CHURCH',n:14},{s:'NUN2',n:12}] },
   { name:'La Stampa Ne Parla', moves:19, objs:[{s:'🎤',n:18},{s:'💿',n:15},{s:'SHOE',n:10}] },
   { name:'Verso il Palcoscenico', moves:18, objs:[{s:'🎤',n:20},{s:'CHURCH',n:16},{s:'🕯️',n:14}] },
-  { name:'La Notte Prima del Debutto', moves:25, objs:[{s:'🎤',n:10},{s:'CHURCH',n:10},{s:'🕯️',n:10},{s:'BALL',n:10},{s:'💿',n:10},{s:'SHOE',n:10}] },
+  { name:'La Notte Prima del Debutto', moves:25, objs:[{s:'🎤',n:10},{s:'CHURCH',n:10},{s:'🕯️',n:10},{s:'NUN2',n:10},{s:'💿',n:10},{s:'SHOE',n:10}] },
   { name:'Madre Superiora', moves:20, objs:[{s:'🎤',n:10},{s:'CHURCH',n:12},{s:'🕯️',n:8}], boss:true }
 ];
 
@@ -456,7 +456,7 @@ function randomSymbol(row, col) {
 
 // ===== RENDERING SIMBOLO =====
 function renderSymbol(sym) {
-  if (sym === 'BALL') return '<img src="ball.png" alt="💿" class="symbol-img">';
+  if (sym === 'NUN2') return '<img src="nun2.png" alt="📿" class="symbol-img">';
   if (sym === 'CHURCH') return '<img src="church.png" alt="🙏" class="symbol-img">';
   if (sym === 'SHOE') return '<img src="shoe.png" alt="💄" class="symbol-img">';
   return sym; // Centralizzata per futura sostituzione con <img>
