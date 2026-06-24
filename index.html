@@ -263,27 +263,27 @@ button,a,[role="button"]{cursor:pointer}
 
 // ===== COSTANTI =====
 const COLS = 7, ROWS = 8, CELL_TOTAL = COLS * ROWS;
-const SYMBOLS = ['🎤','CHURCH','🕯️','NUN2','💿','SHOE'];
+const SYMBOLS = ['🎤','STAR','🕯️','NUN2','💿','SHOE'];
 const COMBO_MSG = { 2: 'Amen!', 3: 'Halleluja!', 4: 'Miracolo!', 5: 'Divino!' };
 
 // ===== DEFINIZIONE DEI 10 LIVELLI =====
 const LEVELS = [
-  { name:'Coro alle Prime Armi', moves:25, objs:[{s:'🎤',n:12},{s:'CHURCH',n:10}] },
+  { name:'Coro alle Prime Armi', moves:25, objs:[{s:'🎤',n:12},{s:'STAR',n:10}] },
   { name:'La Prima Lezione', moves:24, objs:[{s:'🎤',n:14},{s:'🕯️',n:10}] },
   { name:'Hallelujah!', moves:22, objs:[{s:'🎤',n:15},{s:'🕯️',n:12},{s:'NUN2',n:8}] },
-  { name:'Le Voci si Alzano', moves:22, objs:[{s:'CHURCH',n:15},{s:'NUN2',n:12},{s:'💿',n:8}] },
+  { name:'Le Voci si Alzano', moves:22, objs:[{s:'STAR',n:15},{s:'NUN2',n:12},{s:'💿',n:8}] },
   { name:'Che Favola!', moves:20, objs:[{s:'💿',n:18},{s:'SHOE',n:12},{s:'🎤',n:10}] },
-  { name:'La Chiesa Si Riempie', moves:20, objs:[{s:'🕯️',n:16},{s:'CHURCH',n:14},{s:'NUN2',n:12}] },
+  { name:'La Chiesa Si Riempie', moves:20, objs:[{s:'🕯️',n:16},{s:'STAR',n:14},{s:'NUN2',n:12}] },
   { name:'La Stampa Ne Parla', moves:19, objs:[{s:'🎤',n:18},{s:'💿',n:15},{s:'SHOE',n:10}] },
-  { name:'Verso il Palcoscenico', moves:18, objs:[{s:'🎤',n:20},{s:'CHURCH',n:16},{s:'🕯️',n:14}] },
-  { name:'La Notte Prima del Debutto', moves:25, objs:[{s:'🎤',n:10},{s:'CHURCH',n:10},{s:'🕯️',n:10},{s:'NUN2',n:10},{s:'💿',n:10},{s:'SHOE',n:10}] },
-  { name:'Madre Superiora', moves:20, objs:[{s:'🎤',n:10},{s:'CHURCH',n:12},{s:'🕯️',n:8}], boss:true }
+  { name:'Verso il Palcoscenico', moves:18, objs:[{s:'🎤',n:20},{s:'STAR',n:16},{s:'🕯️',n:14}] },
+  { name:'La Notte Prima del Debutto', moves:25, objs:[{s:'🎤',n:10},{s:'STAR',n:10},{s:'🕯️',n:10},{s:'NUN2',n:10},{s:'💿',n:10},{s:'SHOE',n:10}] },
+  { name:'Madre Superiora', moves:20, objs:[{s:'🎤',n:10},{s:'STAR',n:12},{s:'🕯️',n:8}], boss:true }
 ];
 
 // ===== CUTSCENES (tono: divertente) =====
 const CUTSCENES = [
   { act:'ATTO 2 DI 10', emoji:'🎵', title:'La Prima Lezione', text:'Suor Patrizia è entusiasta di te. Suor Lazzara è un osso duro. Continua a provare per convincerla!' },
-  { act:'ATTO 3 DI 10', emoji:'🏛️', title:'Hallelujah!', text:'Le preghiere si trasformano in canzoni. Il convento non ha mai sentito nulla del genere.' },
+  { act:'ATTO 3 DI 10', emoji:'⭐', title:'Hallelujah!', text:'Le preghiere si trasformano in canzoni. Il convento non ha mai sentito nulla del genere.' },
   { act:'ATTO 4 DI 10', emoji:'🎙️', title:'Le Voci si Alzano', text:'Sento che stai prendendo ritmo! Anche la Madre Superiora ha smesso di tapparsi le orecchie. È un buon segno, fidati.' },
   { act:'ATTO 5 DI 10', emoji:'💿', title:'Che Favola!', text:'Il tuo sound sta crescendo, non fermarti adesso!' },
   { act:'ATTO 6 DI 10', emoji:'🕯️', title:'La Chiesa Si Riempie', text:'La messa è sold out e il Monsignore balla. Tutto merito tuo. Ma il meglio deve ancora venire — continua!' },
@@ -457,7 +457,7 @@ function randomSymbol(row, col) {
 // ===== RENDERING SIMBOLO =====
 function renderSymbol(sym) {
   if (sym === 'NUN2') return '<img src="nun2.png" alt="📿" class="symbol-img">';
-  if (sym === 'CHURCH') return '<img src="church.png" alt="🙏" class="symbol-img">';
+  if (sym === 'STAR') return '<img src="star.png" alt="⭐" class="symbol-img">';
   if (sym === 'SHOE') return '<img src="shoe.png" alt="💄" class="symbol-img">';
   return sym; // Centralizzata per futura sostituzione con <img>
 }
@@ -677,8 +677,8 @@ async function processMatches() {
       if (obj && obj.collected < obj.needed) {
         obj.collected++;
       }
-      // Boss: CHURCH riempie pazienza
-      if (isBossLevel() && m.symbol === 'CHURCH') {
+      // Boss: STAR riempie pazienza
+      if (isBossLevel() && m.symbol === 'STAR') {
         bossPatience = Math.min(bossMaxPatience, bossPatience + 2);
       }
     });
