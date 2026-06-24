@@ -83,7 +83,7 @@ button,a,[role="button"]{cursor:pointer}
 
 /* ===== INTRO OVERLAY ===== */
 #introOverlay{justify-content:flex-start;padding:0;overflow-y:auto}
-#introOverlay .intro-photo{width:100%;height:auto;max-height:75vh;object-fit:cover;object-position:center top;border-radius:0 0 16px 16px;filter:drop-shadow(0 8px 24px rgba(0,0,0,0.6));flex-shrink:0}
+#introOverlay .intro-photo{width:100%;height:auto;max-height:75vh;object-fit:cover;object-position:center top;border-radius:0 0 16px 16px;filter:drop-shadow(0 8px 24px rgba(0,0,0,0.6));flex-shrink:0;pointer-events:none}
 #introOverlay .intro-bottom{display:flex;flex-direction:column;align-items:center;padding:24px 24px 32px;flex-shrink:0}
 #introOverlay .preview-objs{display:flex;gap:12px;justify-content:center;margin-bottom:24px;font-size:22px;font-weight:600;flex-wrap:wrap}
 #introOverlay .resume-row{display:flex;gap:12px;margin-bottom:16px}
@@ -154,7 +154,7 @@ button,a,[role="button"]{cursor:pointer}
 @keyframes prizeBounce{0%{transform:scale(0)}50%{transform:scale(1.15)}70%{transform:scale(0.95)}100%{transform:scale(1)}}
 @keyframes ctaPulse{0%,100%{box-shadow:0 0 0 0 var(--halo)}50%{box-shadow:0 0 20px 4px var(--halo)}}
 </style>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" async></script>
 </head>
 <body>
 <div id="app">
@@ -262,12 +262,17 @@ button,a,[role="button"]{cursor:pointer}
    SISTER MATCH — Logica di gioco completa
    ============================================================ */
 
-// ===== SUPABASE =====
+// ===== SUPABASE (lazy init — il CDN si carica async) =====
 const SUPABASE_URL = 'https://csqzpitlohkaegqbbcvy.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNzcXpwaXRsb2hrYWVncWJiY3Z5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIyODc4MzEsImV4cCI6MjA5Nzg2MzgzMX0.mBMsfCvwVJsRqMiGlIQuWvt5ctmYM3Fq7G0aJEcPY3c';
-let supabase = null;
-try { supabase = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null; }
-catch(e) { console.error('[SUPABASE] Init failed:', e); }
+const SUPABASE_ANON_KEY = 'eyJhbG...PY3c';
+let _supabaseClient = null;
+function getSupabase() {
+  if (!_supabaseClient && window.supabase) {
+    try { _supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY); }
+    catch(e) { console.error('[SUPABASE] Init failed:', e); }
+  }
+  return _supabaseClient;
+}
 
 // ===== COSTANTI =====
 const COLS = 7, ROWS = 8, CELL_TOTAL = COLS * ROWS;
@@ -1051,8 +1056,9 @@ function showPrizeScreen() {
     }
 
     // Salva su Supabase
-    if (supabase) {
-      supabase.from('app_leads').insert([{
+    const sb = getSupabase();
+    if (sb) {
+      sb.from('app_leads').insert([{
         app: 'SISTER_MATCH',
         email: email,
         privacy_accepted: true,
