@@ -232,7 +232,7 @@ button,a,[role="button"]{cursor:pointer}
       <label class="prize-checkbox"><input type="checkbox" id="prizePrivacy" required><span>Ho letto e accetto la <a href="https://teatronazionale.it/privacy-policy/" target="_blank" rel="noopener">informativa sulla privacy</a></span></label>
       <label class="prize-checkbox"><input type="checkbox" id="prizeMarketing" ><span>Accetto di ricevere comunicazioni promozionali su Sister Act il Musical</span></label>
       <button class="btn btn-gold" id="btnPrize" style="animation:ctaPulse 2s ease infinite;width:100%">RICEVI IL CODICE SCONTO</button>
-      <div class="prize-success" id="prizeSuccess" style="display:none">✉️ Codice inviato! Controlla la tua email.</div>
+      <div class="prize-success" id="prizeSuccess" style="display:none">✉️ Mail inviata con successo. A breve riceverai uno sconto esclusivo solo per te!</div>
     </div>
     <button class="btn btn-outline" id="btnShare" style="width:100%;max-width:300px;margin-top:12px">📲 Condividi con gli amici</button>
   </div>
@@ -1086,6 +1086,7 @@ function showPrizeScreen() {
 
     $('btnPrize').style.display = 'none';
     $('prizeEmail').style.display = 'none';
+    document.querySelector('.prize-text').style.display = 'none';
     var checkboxes = $('prizeForm').querySelectorAll('.prize-checkbox');
     checkboxes.forEach(function(cb){ cb.style.display = 'none'; });
     $('prizeSuccess').style.display = 'block';
