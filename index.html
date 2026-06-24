@@ -359,6 +359,14 @@ function init() {
   const bestScore = parseInt(localStorage.getItem('sm_best_score') || '0');
   totalScore = bestScore;
 
+  // Se eravamo sulla schermata premio, ripristinala (es. dopo back da link privacy)
+  if (localStorage.getItem('sm_prize_screen') === '1') {
+    introOverlay.classList.add('hidden');
+    document.querySelector('.footer').classList.add('visible');
+    showPrizeScreen();
+    return;
+  }
+
   if (maxLevel > 0) {
     $('resumeRow').style.display = 'flex';
     $('resumeLvl').textContent = maxLevel + 1;
@@ -371,6 +379,7 @@ function init() {
     $('btnRestartAll').onclick = () => {
       localStorage.setItem('sm_max_level', '0');
       localStorage.setItem('sm_best_score', '0');
+      localStorage.removeItem('sm_prize_screen');
       totalScore = 0;
       $('resumeRow').style.display = 'none';
     };
@@ -1036,6 +1045,7 @@ function showCutscene(completedLevel) {
 
 // ===== SCHERMATA PREMIO =====
 function showPrizeScreen() {
+  localStorage.setItem('sm_prize_screen', '1');
   $('btnShare').onclick = () => shareResult(totalScore);
 
   $('btnPrize').onclick = function(e) {
