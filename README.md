@@ -17,15 +17,18 @@ SISTER_MATCH/
 ├── index.html                # Gioco completo (vanilla JS + CSS inline)
 ├── sister-act-logo-oriz.png  # Logo trasparente topbar (52px)
 ├── sister-match-brief.md     # Brief di sviluppo originale
+├── star.png                  # Simbolo griglia: stella (PNG trasparente)
+├── nun2.png                  # Simbolo griglia: suora (PNG trasparente)
+├── shoe.png                  # Simbolo griglia: scarpa (PNG trasparente)
+├── nun.jpg                   # Icona boss Madre Superiora (HUD)
+├── rosary.jpg                # Asset backup (non più usato)
+├── church.jpg / ball.jpg     # Asset backup (non più usati)
+├── intro-photo.jpg           # Foto verticale promozionale (schermata intro)
+├── footer-banner.jpg         # Banner logo Sister Act (footer overlay)
+├── audio_loop.mp3            # Loop musicale "Fammi Volare"
 ├── assets/                   # Asset aggiuntivi (non serviti)
 ├── GRAFICHE/                 # Mockup di design + foto originali
-│   ├── SISTER ACT - GAME_1.jpg
-│   ├── SISTER ACT - GAME_2.jpg
-│   ├── footer-banner.jpg
-│   └── intro-vertical.jpg
 ├── MUSICHE/                  # Tracce originali (non ottimizzate)
-│   ├── 01 - FAMMI VOLARE NIGHTCLUB  , sezione lenta a 118 2.mp3
-│   └── 17 - SISTER ACT.mp3
 └── README.md
 ```
 
@@ -36,13 +39,58 @@ SISTER_MATCH/
 - **Web Audio API** — effetti sonori sintetici (match, win)
 - **Google Fonts** — Lobster, Bowlby One SC, Manrope
 - **localStorage** — persistenza progresso, tutorial, mute
+- **Supabase JS v2** (CDN) — salvataggio email premio su tabella `app_leads`
 
 ## 🎨 Asset grafici
 
-- `intro-photo.jpg` — Foto verticale promozionale, schermata intro (`max-height:75vh`, `object-fit:cover`)
-- `footer-banner.jpg` — Banner logo Sister Act, footer overlay gioco (solo schermata di gioco)
-- `sister-act-logo-oriz.png` — Logo trasparente "Sister Act Match Mania", topbar gioco (52px)
-- `audio_loop.mp3` — Loop musicale "Fammi Volare", 96kbps mono (~1.9MB)
+| File | Uso | Formato |
+|------|-----|---------|
+| `intro-photo.jpg` | Foto verticale promozionale, schermata intro (`max-height:75vh`, `object-fit:cover`) | JPEG |
+| `footer-banner.jpg` | Banner logo Sister Act, footer overlay gioco (solo in gioco) | JPEG |
+| `sister-act-logo-oriz.png` | Logo trasparente "Sister Act Match Mania", topbar (52px) | PNG |
+| `star.png` | Simbolo griglia 2: stella | PNG trasparente 512×512 |
+| `nun2.png` | Simbolo griglia 4: suora | PNG trasparente 512×512 |
+| `shoe.png` | Simbolo griglia 6: scarpa | PNG trasparente 1024×1280 |
+| `nun.jpg` | Icona boss Madre Superiora (HUD) | JPEG |
+| `audio_loop.mp3` | Loop musicale "Fammi Volare", 96kbps mono (~1.9MB) | MP3 |
+
+## 🎮 Simboli griglia
+
+| # | Simbolo | Tipo | File |
+|---|---------|------|------|
+| 1 | 🎤 Microfono | Emoji | — |
+| 2 | ⭐ Stella | Immagine PNG trasparente | `star.png` |
+| 3 | 🕯️ Candela | Emoji | — |
+| 4 | 🧎 Suora | Immagine PNG trasparente | `nun2.png` |
+| 5 | 💿 Disco | Emoji | — |
+| 6 | 👠 Scarpa | Immagine PNG trasparente | `shoe.png` |
+
+## 🗄️ Supabase — Tabella `app_leads`
+
+Tabella condivisa tra più app per la raccolta di lead/contatti.
+
+```sql
+CREATE TABLE app_leads (
+  id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
+  app text NOT NULL,               -- 'SISTER_MATCH', 'HEART_CHATBOT', ecc.
+  email text NOT NULL,
+  privacy_accepted boolean NOT NULL DEFAULT true,
+  marketing_opt_in boolean DEFAULT false,
+  score integer,
+  created_at timestamptz DEFAULT now()
+);
+
+CREATE INDEX idx_app_leads_app ON app_leads(app);
+CREATE UNIQUE INDEX idx_app_leads_app_email ON app_leads(app, email);
+ALTER TABLE app_leads ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "app_leads_public_insert" ON app_leads
+  FOR INSERT TO anon WITH CHECK (true);
+```
+
+- **RLS attivo**: INSERT anonimo permesso, SELECT/UPDATE/DELETE solo da dashboard
+- **Unique constraint** su (app, email): stessa email non si registra due volte per la stessa app
+- **Project URL**: `https://csqzpitlohkaegqbbcvy.supabase.co`
+- **Anon key**: hardcoded in `index.html` (sicura per design, RLS protegge i dati)
 
 ## 🚀 Deploy
 
@@ -58,7 +106,7 @@ SISTER_MATCH/
 ## 📋 Funzionalità implementate
 
 ### Gioco
-- [x] Griglia match-3 (7×8) con 6 simboli emoji
+- [x] Griglia match-3 (7×8) con 6 simboli (3 emoji + 3 immagini PNG trasparenti)
 - [x] Swap via swipe + tap-select, gravità, combo
 - [x] 10 livelli con obiettivi e bilanciamento progressivo
 - [x] Boss livello 10 — Madre Superiora con barra pazienza
@@ -68,20 +116,27 @@ SISTER_MATCH/
 - [x] Combo toast: Amen → Halleluja → Miracolo → Divino
 - [x] Shuffle silenzioso se nessuna mossa disponibile
 
-### Livelli — Bilanciamento aggiornato
+### Livelli — Bilanciamento attuale
 
 | # | Nome | Mosse | Obiettivi |
 |---|------|-------|-----------|
-| 1 | Coro alle Prime Armi | 25 | 🎤 ×12, 🙏 ×10 |
+| 1 | Coro alle Prime Armi | 25 | 🎤 ×12, ⭐ ×10 |
 | 2 | La Prima Lezione | 24 | 🎤 ×14, 🕯️ ×10 |
-| 3 | Hallelujah! | 22 | 🎤 ×15, 🕯️ ×12, 📿 ×8 |
-| 4 | Le Voci si Alzano | 22 | 🙏 ×15, 📿 ×12, 💿 ×8 |
-| 5 | Che Favola! | 20 | 💿 ×18, 💄 ×12, 🎤 ×10 |
-| 6 | La Chiesa Si Riempie | 20 | 🕯️ ×16, 🙏 ×14, 📿 ×12 |
-| 7 | La Stampa Ne Parla | 19 | 🎤 ×18, 💿 ×15, 💄 ×10 |
-| 8 | Verso il Palcoscenico | 18 | 🎤 ×20, 🙏 ×16, 🕯️ ×14 |
+| 3 | Hallelujah! | 22 | 🎤 ×15, 🕯️ ×12, 🧎 ×8 |
+| 4 | Le Voci si Alzano | 22 | ⭐ ×15, 🧎 ×12, 💿 ×8 |
+| 5 | Che Favola! | 20 | 💿 ×18, 👠 ×12, 🎤 ×10 |
+| 6 | La Chiesa Si Riempie | 20 | 🕯️ ×16, ⭐ ×14, 🧎 ×12 |
+| 7 | La Stampa Ne Parla | 19 | 🎤 ×18, 💿 ×15, 👠 ×10 |
+| 8 | Verso il Palcoscenico | 18 | 🎤 ×20, ⭐ ×16, 🕯️ ×14 |
 | 9 | La Notte Prima del Debutto | **25** | tutti i 6 simboli ×10 ciascuno |
-| 10 | **Madre Superiora** (BOSS) | 20 | 🎤 ×10, 🙏 ×12, 🕯️ ×8 |
+| 10 | **Madre Superiora** (BOSS) | 20 | 🎤 ×10, ⭐ ×12, 🕯️ ×8 |
+
+### Boss livello 10
+- [x] Madre Superiora con barra pazienza (20 punti)
+- [x] Ogni mossa decrementa pazienza di 1
+- [x] Match di ⭐ (stella) ricarica pazienza di +2
+- [x] Se pazienza arriva a 0 → sconfitta
+- [x] Icona boss: `nun.jpg` (suora, non poliziotta)
 
 ### Cutscene (testi aggiornati)
 
@@ -96,13 +151,14 @@ SISTER_MATCH/
 - ATTO 10: "Questo è il momento della verità. La Madre Superiora non si convince facilmente. Ma tu sei arrivata fin qui. Adesso vai e conquistala!"
 
 ### Grafica
-- [x] Schermata intro con foto promozionale verticale + simboli obiettivo + bottone (nessun logo/tagline)
+- [x] Schermata intro con foto promozionale verticale + simboli obiettivo + bottone
 - [x] Intro photo: `max-height:75vh` con `object-fit:cover` (visibile senza scroll su desktop)
-- [x] Overlay (intro, cutscene, end, prize, tutorial) centrati a 480px su desktop (non a tutto schermo)
-- [x] Footer overlay con banner Sister Act — visibile **solo nella schermata di gioco** (nascosto in intro, fade-in all'avvio)
-- [x] Logo trasparente "Sister Act Match Mania" nella topbar (52px, PNG con trasparenza)
-- [x] Effetto lampo dorato sullo sfondo ad ogni match (radial-gradient ellisse 80%×50%, posizione top 20%, durata 0.8s)
-- [x] Layout desktop centrato: app + overlay a larghezza fissa 480px con sfondo nero e ombra laterale
+- [x] Overlay (intro, cutscene, end, prize, tutorial) centrati a 480px su desktop
+- [x] Footer overlay con banner Sister Act — visibile solo nella schermata di gioco
+- [x] Logo trasparente "Sister Act Match Mania" nella topbar (52px)
+- [x] Effetto lampo dorato sullo sfondo ad ogni match
+- [x] Layout desktop centrato: app + overlay a larghezza fissa 480px con ombra laterale
+- [x] Simboli griglia con immagini PNG trasparenti (stella, suora, scarpa)
 
 ### Audio
 - [x] Audio loop + mute con persistenza localStorage
@@ -111,11 +167,12 @@ SISTER_MATCH/
 ### Schermata premio (post-livello 10)
 - [x] Overlay celebrativo con logo, coriandoli dorati CSS
 - [x] Titolo "COMPLIMENTI!" + "HAI SUPERATO TUTTI I LIVELLI"
-- [x] Testo: "Inserisci la tua mail per ricevere un codice sconto esclusivo! Ti aspettiamo a teatro per vedere Sister Act il Musical in scena dall'8 ottobre"
+- [x] Testo: "Inserisci la tua mail per ricevere un codice sconto esclusivo!"
 - [x] Form email con validazione
 - [x] Checkbox privacy obbligatorio con link informativa
 - [x] Checkbox marketing opzionale
-- [x] Bottone "RICEVI IL CODICE SCONTO" → per ora log in console, Supabase in TODO
+- [x] Bottone "RICEVI IL CODICE SCONTO" → **salvataggio su Supabase tabella `app_leads`**
+- [x] Gestione errori: email duplicata, errore generico
 - [x] Messaggio conferma "✉️ Codice inviato! Controlla la tua email."
 - [x] Bottone condivisione social (navigator.share + fallback WhatsApp)
 
@@ -123,7 +180,7 @@ SISTER_MATCH/
 - [x] "Sister, riprova! Noi crediamo in te!" (mosse esaurite o boss)
 
 ### Condivisione social
-- [x] Messaggio aggiornato: "Ho fatto [N] punti a Sister Match! Riesci a battermi? Sister Act Il Musical in scena al Teatro Nazionale di Milano dall'8 ottobre #sisteractilmusical"
+- [x] Messaggio: "Ho fatto [N] punti a Sister Match! Riesci a battermi? Sister Act Il Musical in scena al Teatro Nazionale di Milano dall'8 ottobre #sisteractilmusical"
 - [x] Meta tag Open Graph
 
 ### Persistenza
@@ -137,8 +194,8 @@ SISTER_MATCH/
 
 ## ⏳ Da fare (Fase 2)
 
-- [ ] Salvataggio email premio su Supabase (tabella: email, marketing_opt_in, score, timestamp)
-- [ ] Sostituire emoji con asset illustrati dal grafico (🙏 → velo da suora)
-- [ ] Inserire loghi PNG trasparenti quando forniti
+- [ ] Sostituire emoji rimanenti (🎤, 🕯️, 💿) con asset illustrati dal grafico
+- [ ] Inserire loghi PNG trasparenti definitivi quando forniti
 - [ ] Versione bilingue IT/EN
 - [ ] Audio differenziato per livelli avanzati
+- [ ] Dominio target: `gioca.sisteract.it`
