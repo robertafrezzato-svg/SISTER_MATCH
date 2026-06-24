@@ -265,7 +265,9 @@ button,a,[role="button"]{cursor:pointer}
 // ===== SUPABASE =====
 const SUPABASE_URL = 'https://csqzpitlohkaegqbbcvy.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNzcXpwaXRsb2hrYWVncWJiY3Z5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIyODc4MzEsImV4cCI6MjA5Nzg2MzgzMX0.mBMsfCvwVJsRqMiGlIQuWvt5ctmYM3Fq7G0aJEcPY3c';
-const supabase = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
+let supabase = null;
+try { supabase = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null; }
+catch(e) { console.error('[SUPABASE] Init failed:', e); }
 
 // ===== COSTANTI =====
 const COLS = 7, ROWS = 8, CELL_TOTAL = COLS * ROWS;
