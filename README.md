@@ -15,6 +15,10 @@ Un gioco match-3 giocabile in 90 secondi su mobile, con 10 livelli progressivi e
 ```
 SISTER_MATCH/
 ├── index.html                # Gioco completo (vanilla JS + CSS inline)
+├── cookie-policy.html        # Cookie policy (linkata dalla schermata premio)
+├── vercel.json               # Header sicurezza (CSP + hardening)
+├── fonts/                    # Font self-hosted (woff2) + fonts.css (no Google Fonts)
+├── vendor/                   # Libreria Supabase JS self-hosted (no CDN jsDelivr)
 ├── sister-act-logo-oriz.png  # Logo trasparente topbar (52px)
 ├── sister-match-brief.md     # Brief di sviluppo originale
 ├── star.png                  # Simbolo griglia: stella (PNG trasparente)
@@ -37,9 +41,9 @@ SISTER_MATCH/
 - **Vanilla JS** — nessun framework
 - **Pointer Events API** — input unificato mouse + touch
 - **Web Audio API** — effetti sonori sintetici (match, win)
-- **Google Fonts** — Lobster, Bowlby One SC, Manrope
+- **Font self-hosted** — Lobster, Bowlby One SC, Manrope (woff2 in `/fonts`, no Google Fonts CDN)
 - **localStorage** — persistenza progresso, tutorial, mute
-- **Supabase JS v2** (CDN) — salvataggio email premio su tabella `app_leads`
+- **Supabase JS v2** (self-hosted in `/vendor`) — salvataggio email premio su tabella `app_leads`
 
 ## 🎨 Asset grafici
 
@@ -91,6 +95,19 @@ CREATE POLICY "app_leads_public_insert" ON app_leads
 - **Unique constraint** su (app, email): stessa email non si registra due volte per la stessa app
 - **Project URL**: `https://csqzpitlohkaegqbbcvy.supabase.co`
 - **Anon key**: hardcoded in `index.html` (sicura per design, RLS protegge i dati)
+
+## 🔒 Privacy & Compliance
+
+- **Nessun servizio terzo al caricamento**: font e libreria Supabase sono self-hosted; il browser non contatta Google né CDN esterni all'apertura.
+- **Unico contatto esterno**: Supabase, solo quando l'utente invia volontariamente l'email dal form premio.
+- **Cookie**: nessun cookie di profilazione. Solo `localStorage` tecnico (`sm_*`) per progresso/audio/tutorial → **nessun banner cookie necessario**.
+- **Documenti**: [Cookie policy](cookie-policy.html) (linkata dalla schermata premio) + [Informativa privacy](https://teatronazionale.it/privacy-policy/) del teatro.
+- **CSP + header hardening** in `vercel.json`.
+
+**Da confermare/valutare:**
+- Titolare del trattamento nella privacy del teatro (copertura raccolta email via app).
+- Banner cookie + blocco preventivo: necessari **solo se** si aggiunge Meta Pixel / Google Analytics per le campagne social.
+- Premio: codice sconto uguale per tutti → fuori dalla disciplina concorsi a premio (DPR 430/2001), basso rischio.
 
 ## 🚀 Deploy
 

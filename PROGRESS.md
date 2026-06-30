@@ -1,6 +1,6 @@
 # SISTER MATCH — Progress.md
 
-Ultimo aggiornamento: 24 giugno 2026
+Ultimo aggiornamento: 30 giugno 2026
 
 ## ✅ Completato
 
@@ -40,6 +40,19 @@ Ultimo aggiornamento: 24 giugno 2026
 - [x] Gestione errori: email duplicata (23505), errore generico
 - [x] Test browser: insert OK, RLS blocca SELECT anonimo, unique constraint funziona
 
+### Fase 5 — Hardening sicurezza (giugno 2026)
+- [x] RLS policy ristretta + CHECK constraint formato email lato DB Supabase
+- [x] Validazione email client con regex in `index.html`
+- [x] `vercel.json` con CSP + header hardening (X-Content-Type-Options, Referrer-Policy, X-Frame-Options, Permissions-Policy, HSTS)
+- [ ] Anti-bot (Cloudflare Turnstile + Edge Function) — **rimandato**
+
+### Fase 6 — Compliance privacy/cookie (30 giugno 2026)
+- [x] Font self-hosted (Lobster/Bowlby One SC/Manrope) in `/fonts` — rimossi link a Google Fonts (niente trasferimento IP a Google)
+- [x] Libreria Supabase JS self-hosted in `/vendor` — rimosso CDN jsDelivr
+- [x] CSP ristretta di conseguenza (rimossi googleapis, gstatic, jsdelivr)
+- [x] Cookie policy (`cookie-policy.html`) + link Privacy/Cookie nella schermata premio
+- [x] Verificato: nessun banner cookie necessario (solo tecnologie tecniche, no profilazione)
+
 ## 📍 Stato attuale
 
 - **Repo:** `/Users/roberta/projects/teatro/SISTER_MATCH`
@@ -54,3 +67,5 @@ Ultimo aggiornamento: 24 giugno 2026
 - [ ] Versione bilingue IT/EN
 - [ ] Audio differenziato per livelli avanzati
 - [ ] Dominio target: `gioca.sisteract.it`
+- [ ] Confermare il Titolare del trattamento nella privacy del teatro (copertura raccolta email via app)
+- [ ] Banner cookie + blocco preventivo — **solo se** si aggiunge Meta Pixel / Google Analytics per le campagne social
