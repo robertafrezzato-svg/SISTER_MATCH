@@ -525,9 +525,16 @@ function setupGridInput() {
 
 function onPointerDown(e) {
   if (isProcessing) return;
+  // Ignora tasti mouse secondari (destro/centrale): solo click primario
+  if (e.button !== undefined && e.button !== 0) return;
   e.preventDefault();
   const cell = e.target.closest('.grid-cell');
   if (!cell) return;
+  // Cattura esplicita del puntatore: su desktop il mouse NON ha la cattura
+  // implicita che ha il touch, quindi senza questo un drag col mouse può
+  // essere "rubato" dalla selezione/drag nativi del browser (pointercancel)
+  // e lo swap non parte. Con la cattura il mouse si comporta come il touch.
+  try { gridEl.setPointerCapture(e.pointerId); } catch (_) {}
   const r = parseInt(cell.dataset.row);
   const c = parseInt(cell.dataset.col);
   pointerStart = { x: e.clientX, y: e.clientY };
@@ -586,6 +593,7 @@ function onPointerUp(e) {
   pointerStart = null;
   pointerCell = null;
   pointerMoved = false;
+  try { if (e.pointerId !== undefined) gridEl.releasePointerCapture(e.pointerId); } catch (_) {}
 }
 
 function clearSelection() {
