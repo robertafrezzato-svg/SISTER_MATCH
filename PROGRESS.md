@@ -1,6 +1,6 @@
 # SISTER MATCH — Progress.md
 
-Ultimo aggiornamento: 30 giugno 2026
+Ultimo aggiornamento: 6 agosto 2026
 
 ## ✅ Completato
 
@@ -53,12 +53,24 @@ Ultimo aggiornamento: 30 giugno 2026
 - [x] Cookie policy (`cookie-policy.html`) + link Privacy/Cookie nella schermata premio
 - [x] Verificato: nessun banner cookie necessario (solo tecnologie tecniche, no profilazione)
 
+### Fase 7 — Fix input desktop (22 luglio 2026)
+- [x] Cattura esplicita del puntatore mouse (`setPointerCapture`/`releasePointerCapture`) — risolti drag e click che si perdevano su PC
+
+### Fase 8 — Analytics (6 agosto 2026)
+- [x] Vercel Web Analytics attivato: tag `<script defer src="/_vercel/insights/script.js">` in `index.html`
+- [x] Nessuna modifica alla CSP necessaria — lo script è servito same-origin, già coperto da `script-src 'self'`
+- [x] Verificato in produzione: script HTTP 200, dati in arrivo nella dashboard Vercel
+- [x] Cookie policy aggiornata: Vercel Web Analytics tra i servizi terzi (cookieless, dati aggregati e anonimi)
+- [x] Confermato: la scelta di non usare il banner cookie resta valida (nessun dato scritto sul dispositivo)
+- ℹ️ Nota: il pacchetto npm `@vercel/analytics` **non serve** — è solo per progetti con bundler/framework, questo è un sito statico
+
 ## 📍 Stato attuale
 
 - **Repo:** `/Users/roberta/projects/teatro/SISTER_MATCH`
 - **Branch:** `main` — pulito, allineato con origin
 - **Deploy:** sister-match.vercel.app (auto-deploy da GitHub push)
 - **Supabase:** `https://csqzpitlohkaegqbbcvy.supabase.co` — tabella `app_leads` attiva
+- **Analytics:** Vercel Web Analytics attivo (tab *Analytics* nella dashboard del progetto)
 
 ## ⏳ Da fare
 
@@ -68,4 +80,5 @@ Ultimo aggiornamento: 30 giugno 2026
 - [ ] Audio differenziato per livelli avanzati
 - [ ] Dominio target: `gioca.sisteract.it`
 - [ ] Confermare il Titolare del trattamento nella privacy del teatro (copertura raccolta email via app)
-- [ ] Banner cookie + blocco preventivo — **solo se** si aggiunge Meta Pixel / Google Analytics per le campagne social
+- [ ] Far validare al referente privacy del teatro la voce Vercel come responsabile del trattamento (analytics)
+- [ ] Banner cookie + blocco preventivo — **solo se** si aggiunge Meta Pixel / Google Analytics per le campagne social (Vercel Web Analytics non lo richiede: cookieless)

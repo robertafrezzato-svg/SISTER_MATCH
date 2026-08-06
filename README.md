@@ -44,6 +44,7 @@ SISTER_MATCH/
 - **Font self-hosted** — Lobster, Bowlby One SC, Manrope (woff2 in `/fonts`, no Google Fonts CDN)
 - **localStorage** — persistenza progresso, tutorial, mute
 - **Supabase JS v2** (self-hosted in `/vendor`) — salvataggio email premio su tabella `app_leads`
+- **Vercel Web Analytics** — statistiche di visita aggregate e cookieless, script servito same-origin da `/_vercel/insights/script.js` (nessun pacchetto npm: `@vercel/analytics` serve solo ai progetti con bundler)
 
 ## 🎨 Asset grafici
 
@@ -98,15 +99,17 @@ CREATE POLICY "app_leads_public_insert" ON app_leads
 
 ## 🔒 Privacy & Compliance
 
-- **Nessun servizio terzo al caricamento**: font e libreria Supabase sono self-hosted; il browser non contatta Google né CDN esterni all'apertura.
-- **Unico contatto esterno**: Supabase, solo quando l'utente invia volontariamente l'email dal form premio.
+- **Nessun dominio terzo al caricamento**: font, libreria Supabase e script analytics sono tutti serviti da questo stesso dominio; il browser non contatta Google né CDN esterni all'apertura.
+- **Unico invio di dati personali**: Supabase, solo quando l'utente invia volontariamente l'email dal form premio.
+- **Analytics**: Vercel Web Analytics raccoglie statistiche di visita aggregate e anonime (visite, pagine viste, dispositivo, referrer), senza cookie né identificatori permanenti. Vercel Inc. è responsabile del trattamento in quanto hosting provider.
 - **Cookie**: nessun cookie di profilazione. Solo `localStorage` tecnico (`sm_*`) per progresso/audio/tutorial → **nessun banner cookie necessario**.
 - **Documenti**: [Cookie policy](cookie-policy.html) (linkata dalla schermata premio) + [Informativa privacy](https://teatronazionale.it/privacy-policy/) del teatro.
 - **CSP + header hardening** in `vercel.json`.
 
 **Da confermare/valutare:**
 - Titolare del trattamento nella privacy del teatro (copertura raccolta email via app).
-- Banner cookie + blocco preventivo: necessari **solo se** si aggiunge Meta Pixel / Google Analytics per le campagne social.
+- Voce Vercel come responsabile del trattamento per gli analytics: da far validare al referente privacy del teatro.
+- Banner cookie + blocco preventivo: necessari **solo se** si aggiunge Meta Pixel / Google Analytics per le campagne social. Vercel Web Analytics non li richiede, essendo cookieless e senza scritture sul dispositivo.
 - Premio: codice sconto uguale per tutti → fuori dalla disciplina concorsi a premio (DPR 430/2001), basso rischio.
 
 ## 🚀 Deploy
@@ -208,6 +211,8 @@ CREATE POLICY "app_leads_public_insert" ON app_leads
 ### Altro
 - [x] Favicon emoji 🎤
 - [x] Griglia a pieno schermo con footer overlay fisso (solo in gioco)
+- [x] Cattura esplicita del puntatore (`setPointerCapture`) — drag e click affidabili anche da desktop
+- [x] Vercel Web Analytics per il monitoraggio delle visite della campagna
 
 ## ⏳ Da fare (Fase 2)
 
