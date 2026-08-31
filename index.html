@@ -230,6 +230,7 @@ button,a,[role="button"]{cursor:pointer}
       <input type="email" id="prizeEmail" class="prize-input" placeholder="La tua email" autocomplete="email" required>
       <label class="prize-checkbox"><input type="checkbox" id="prizePrivacy" required><span>Ho letto e accetto la <a href="https://teatronazionale.it/privacy-policy/" target="_blank" rel="noopener">informativa sulla privacy</a></span></label>
       <label class="prize-checkbox"><input type="checkbox" id="prizeMarketing" ><span>Accetto di ricevere comunicazioni promozionali su Sister Act il Musical</span></label>
+      <label class="prize-checkbox"><input type="checkbox" id="prizeTracking"><span id="prizeTrackingText"></span></label>
       <button class="btn btn-gold" id="btnPrize" style="animation:ctaPulse 2s ease infinite;width:100%">RICEVI IL CODICE SCONTO</button>
       <div class="prize-success" id="prizeSuccess" style="display:none">✉️ Mail inviata con successo. A breve riceverai uno sconto esclusivo solo per te!</div>
     </div>
@@ -261,6 +262,23 @@ button,a,[role="button"]{cursor:pointer}
 /* ============================================================
    SISTER MATCH — Logica di gioco completa
    ============================================================ */
+
+// ===== CONSENSO AL TRACCIAMENTO DELLE EMAIL =====
+// La frase esatta accanto alla spunta del tracciamento.
+//
+// Dal 28/10/2026 il pixel che rileva le aperture delle mail vuole un consenso suo,
+// separato da quello alle comunicazioni promozionali: sono due domande diverse, e unirle
+// in una spunta sola le annullerebbe entrambe.
+//
+// Sta in una costante e non nel markup perché va in due posti che non devono poter
+// divergere: l'etichetta che la persona legge, e il testo che archiviamo insieme al
+// consenso. Se fossero due stringhe, prima o poi mostreremmo una frase e ne
+// conserveremmo un'altra — e il consenso archiviato non proverebbe piu' nulla.
+const TRACKING_CONSENT_TEXT = 'Autorizzo il Teatro a usare tecnologie di tracciamento nelle email che ricevo, per rilevare se le apro e se clicco i collegamenti, e per migliorare le comunicazioni future.';
+(function () {
+  const t = document.getElementById('prizeTrackingText');
+  if (t) t.textContent = TRACKING_CONSENT_TEXT;
+})();
 
 // ===== SUPABASE (lazy init — il CDN si carica async) =====
 const SUPABASE_URL = 'https://csqzpitlohkaegqbbcvy.supabase.co';
@@ -1061,6 +1079,8 @@ function showPrizeScreen() {
     var email = $('prizeEmail').value.trim();
     var privacy = $('prizePrivacy').checked;
     var marketing = $('prizeMarketing').checked;
+    // Facoltativa: niente controllo, il "no" e' una risposta valida quanto il "si'".
+    var tracking = $('prizeTracking').checked;
 
     var emailRe = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
     if (!email || email.length > 254 || !emailRe.test(email)) {
@@ -1082,6 +1102,14 @@ function showPrizeScreen() {
         email: email,
         privacy_accepted: true,
         marketing_opt_in: marketing,
+        tracking_opt_in: tracking,
+        // La prova del consenso viaggia insieme al lead: questa pagina scrive con la
+        // chiave anonima e nel registro dei consensi non puo' entrare (e' protetto
+        // apposta). La riga di registro la scrive il CRM al primo import, copiando questo
+        // testo e la data di iscrizione — vedi sincronizza_leads() in db/038.
+        tracking_consent_text: TRACKING_CONSENT_TEXT,
+        // Nessuna versione: qui l'informativa e' quella del sito del teatro, che non e'
+        // versionata. Da riempire quando lo sara'.
         score: totalScore
       }]).then(function(result) {
         if (result.error) {
