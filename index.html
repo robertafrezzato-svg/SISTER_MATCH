@@ -282,7 +282,9 @@ const TRACKING_CONSENT_TEXT = 'Autorizzo il Teatro a usare tecnologie di traccia
 
 // ===== SUPABASE (lazy init — il CDN si carica async) =====
 const SUPABASE_URL = 'https://csqzpitlohkaegqbbcvy.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNzcXpwaXRsb2hrYWVncWJiY3Z5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIyODc4MzEsImV4cCI6MjA5Nzg2MzgzMX0.mBMsfCvwVJsRqMiGlIQuWvt5ctmYM3Fq7G0aJEcPY3c';
+// Chiave publishable di Supabase (sostituisce la anon legacy, 12/10/2026): è pubblica per natura,
+// i permessi li decide la RLS di app_leads.
+const SUPABASE_ANON_KEY = 'sb_publishable_JxdfV0GwIpE81KeCj50dCw_OejtnqN5';
 let _supabaseClient = null;
 function getSupabase() {
   if (!_supabaseClient && window.supabase) {
